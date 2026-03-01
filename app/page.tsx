@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Navigation } from "@/components/navigation";
 import { Button } from "@/components/ui/button";
 import { MentorCard } from "@/components/mentor-card";
@@ -155,6 +156,19 @@ const mentors: Mentor[] = [
   },
 ];
 
+const sponsors = [
+  { name: "Beyin Yatırım", src: "/sponsors/beyin-yatirim.png" },
+  { name: "Böyük Dayaq", src: "/sponsors/boyuk-dayaq.png" },
+  { name: "DNTHUB", src: "/sponsors/dnthub.jpg" },
+  { name: "Gənclərin İnkişafı", src: "/sponsors/genclerin-inkisaf.jpeg" },
+  { name: "Karyera", src: "/sponsors/karyera.png" },
+  { name: "Neway", src: "/sponsors/neway.jpeg" },
+  { name: "Be Positive", src: "/sponsors/positive.jpg" },
+  { name: "Rabitəbank", src: "/sponsors/rabitebank.jpeg" },
+  { name: "TIHA", src: "/sponsors/tiha.png" },
+  { name: "Yeni Sən", src: "/sponsors/yeni-sen.png" },
+];
+
 export default function WelcomePage() {
   return (
     <>
@@ -294,6 +308,41 @@ export default function WelcomePage() {
                   </p>
                 </div>
               </div>
+            </ScrollSection>
+
+            {/* Sponsors */}
+            <ScrollSection>
+              <section className="my-12 space-y-6">
+                <div className="text-center space-y-2">
+                  <h2 className="text-3xl font-bold text-primary">Sponsors</h2>
+                  <p className="text-foreground/70">
+                    Proudly supported by organizations that invest in youth and
+                    education.
+                  </p>
+                </div>
+
+                <div className="relative overflow-hidden rounded-lg bg-card py-6">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-linear-to-r from-background to-transparent" />
+                  <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-linear-to-l from-background to-transparent" />
+
+                  <div className="sponsors-marquee-track">
+                    {[...sponsors, ...sponsors].map((sponsor, index) => (
+                      <div
+                        key={`${sponsor.src}-${index}`}
+                        className="sponsors-marquee-item"
+                      >
+                        <Image
+                          src={sponsor.src}
+                          alt={sponsor.name}
+                          width={260}
+                          height={120}
+                          className="h-20 w-auto object-contain"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
             </ScrollSection>
 
             {/* Latest Update Preview */}

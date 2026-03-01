@@ -161,6 +161,30 @@
   }
 }
 @layer utilities {
+  @keyframes sponsors-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .sponsors-marquee-track {
+    display: flex;
+    width: max-content;
+    animation: sponsors-marquee 32s linear infinite;
+  }
+
+  .sponsors-marquee-item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
   @keyframes section-scale-fade {
     from {
       opacity: 0;
