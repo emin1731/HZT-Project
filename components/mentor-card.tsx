@@ -10,7 +10,7 @@ interface MentorCardProps {
 
 export function MentorCard({ mentor }: MentorCardProps) {
   return (
-    <div className="bg-card border border-border rounded-lg overflow-hidden hover:border-primary transition-colors space-y-0 h-full flex flex-col">
+    <div className="bg-card border border-border rounded-lg overflow-hidden hover:border-primary transition-all duration-300 ease-out hover:scale-105 transform space-y-0 h-full flex flex-col">
       {/* Photo */}
       {mentor.photo && (
         <div className="w-full bg-muted">

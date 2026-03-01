@@ -139,6 +139,20 @@ const mentors: Mentor[] = [
       "Beyin Yatırım Tədris Mərkəzinin təsisçisi,ölkədə ingilis dili fənni üzrə ilk dinləmə və oxu testlərinin həm-müəllifi  və ingilis dili müəllimi",
     photo: "/rafig-merdanov.jpeg",
   },
+  {
+    id: "13",
+    name: "Mehdi",
+    surname: "Bəşirli",
+    expertise: "Beynəlxalq dərəcəli Karyera Kouç",
+    photo: "/mehdi-besirli.jpg",
+  },
+  {
+    id: "14",
+    name: "Nigar",
+    surname: "İlqar qızı",
+    expertise: "Nitq və Diksiya təlimçisi",
+    photo: "/nigar-ilgar-qizi.jpg",
+  },
 ];
 
 export default function WelcomePage() {
