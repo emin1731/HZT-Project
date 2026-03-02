@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/carousel";
 import { ArrowRight, Instagram, Sparkles } from "lucide-react";
 import { Mentor } from "@/lib/types";
+import { getAllPosts } from "@/lib/posts";
 
 interface TeamMember {
   id: string;
@@ -177,6 +178,9 @@ const sponsors = [
 ];
 
 export default function WelcomePage() {
+  const latestNews = getAllPosts()[0];
+  const latestNewsHref = latestNews ? `/news/${latestNews.slug}` : "/news";
+
   return (
     <>
       {/* <Navigation /> */}
@@ -352,24 +356,26 @@ export default function WelcomePage() {
               </section>
             </ScrollSection>
 
-            {/* Latest Update Preview */}
+            {/* Latest News Preview */}
             <ScrollSection>
-              <div className="bg-card border border-border rounded-lg p-8 my-12 animate-fade-up">
-                <p className="text-sm text-primary font-semibold uppercase tracking-wide">
-                  Latest Update
-                </p>
-                <h2 className="text-2xl font-bold text-foreground mt-2 mb-4">
-                  Expanding Our Reach
-                </h2>
-                <p className="text-foreground/70 mb-6">
-                  We are thrilled to announce new partnerships and expanded
-                  programs launching this year to serve more students in
-                  underserved communities.
-                </p>
-                <Link href="/news">
-                  <Button variant="default">View All Updates</Button>
-                </Link>
-              </div>
+              <Link href={latestNewsHref} className="block my-12">
+                <div className="bg-card border border-border rounded-lg p-8 animate-fade-up hover:border-primary transition-colors">
+                  <p className="text-sm text-primary font-semibold uppercase tracking-wide">
+                    Latest News
+                  </p>
+                  <h2 className="text-2xl font-bold text-foreground mt-2 mb-4">
+                    {latestNews?.metadata.title ?? "Latest News"}
+                  </h2>
+                  <p className="text-foreground/70 mb-6">
+                    {latestNews?.metadata.description ??
+                      "Read our newest announcement and stay updated with what’s happening at Future Careers."}
+                  </p>
+                  <span className="text-primary font-semibold inline-flex items-center gap-1">
+                    Read Latest News
+                    <span>→</span>
+                  </span>
+                </div>
+              </Link>
             </ScrollSection>
           </div>
         </ScrollSection>
