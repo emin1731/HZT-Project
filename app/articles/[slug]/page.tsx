@@ -18,6 +18,13 @@ interface ArticleResponse {
   html: string;
 }
 
+interface ArticlesListResponse {
+  articles: Array<{
+    slug: string;
+    metadata: ArticleResponse["metadata"];
+  }>;
+}
+
 export default function ArticlePage() {
   const pathname = usePathname();
   const slug = useMemo(() => {
@@ -26,6 +33,9 @@ export default function ArticlePage() {
   }, [pathname]);
 
   const [article, setArticle] = useState<ArticleResponse | null>(null);
+  const [suggestedArticles, setSuggestedArticles] = useState<
+    ArticlesListResponse["articles"]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,19 +45,37 @@ export default function ArticlePage() {
     async function loadArticle() {
       setLoading(true);
       setError(null);
+      setSuggestedArticles([]);
 
       try {
-        const response = await fetch(`/api/articles/${slug}`);
-        if (!response.ok) {
+        const [articleResponse, articlesResponse] = await Promise.all([
+          fetch(`/api/articles/${slug}`),
+          fetch("/api/articles"),
+        ]);
+
+        if (!articleResponse.ok) {
           throw new Error("Not found");
         }
-        const data = (await response.json()) as ArticleResponse;
+
+        const data = (await articleResponse.json()) as ArticleResponse;
+
+        let related: ArticlesListResponse["articles"] = [];
+        if (articlesResponse.ok) {
+          const listData =
+            (await articlesResponse.json()) as ArticlesListResponse;
+          related = listData.articles
+            .filter((item) => item.slug !== data.slug)
+            .slice(0, 3);
+        }
+
         if (isMounted) {
           setArticle(data);
+          setSuggestedArticles(related);
         }
       } catch (err) {
         if (isMounted) {
           setArticle(null);
+          setSuggestedArticles([]);
           setError(err instanceof Error ? err.message : "Unknown error");
         }
       } finally {
@@ -187,6 +215,37 @@ export default function ArticlePage() {
         className="markdown-content prose prose-lg max-w-none mb-16"
         dangerouslySetInnerHTML={{ __html: article.html }}
       />
+
+      {suggestedArticles.length > 0 && (
+        <section className="mb-16 pt-8 border-t border-border">
+          <h2 className="text-2xl font-bold text-foreground mb-6">
+            Other Articles
+          </h2>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {suggestedArticles.map((item) => (
+              <Link
+                key={item.slug}
+                href={`/articles/${item.slug}`}
+                className="rounded-lg border border-border bg-card p-4 transition-colors hover:border-primary"
+              >
+                <h3 className="font-semibold text-foreground mb-2 line-clamp-2">
+                  {item.metadata.title ?? "Untitled"}
+                </h3>
+                {item.metadata.date && (
+                  <p className="text-sm text-foreground/60 mb-2">
+                    {item.metadata.date}
+                  </p>
+                )}
+                {item.metadata.description && (
+                  <p className="text-sm text-foreground/70 line-clamp-3">
+                    {item.metadata.description}
+                  </p>
+                )}
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Footer */}
       <footer className="pt-8 border-t border-border">

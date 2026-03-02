@@ -18,6 +18,13 @@ interface NewsPostResponse {
   html: string;
 }
 
+interface NewsListResponse {
+  posts: Array<{
+    slug: string;
+    metadata: NewsPostResponse["metadata"];
+  }>;
+}
+
 export default function PostPage() {
   const pathname = usePathname();
   const slug = useMemo(() => {
@@ -26,6 +33,9 @@ export default function PostPage() {
   }, [pathname]);
 
   const [post, setPost] = useState<NewsPostResponse | null>(null);
+  const [suggestedPosts, setSuggestedPosts] = useState<
+    NewsListResponse["posts"]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,19 +45,36 @@ export default function PostPage() {
     async function loadPost() {
       setLoading(true);
       setError(null);
+      setSuggestedPosts([]);
 
       try {
-        const response = await fetch(`/api/news/${slug}`);
-        if (!response.ok) {
+        const [postResponse, postsResponse] = await Promise.all([
+          fetch(`/api/news/${slug}`),
+          fetch("/api/news"),
+        ]);
+
+        if (!postResponse.ok) {
           throw new Error("Not found");
         }
-        const data = (await response.json()) as NewsPostResponse;
+
+        const data = (await postResponse.json()) as NewsPostResponse;
+
+        let related: NewsListResponse["posts"] = [];
+        if (postsResponse.ok) {
+          const postsData = (await postsResponse.json()) as NewsListResponse;
+          related = postsData.posts
+            .filter((item) => item.slug !== data.slug)
+            .slice(0, 3);
+        }
+
         if (isMounted) {
           setPost(data);
+          setSuggestedPosts(related);
         }
       } catch (err) {
         if (isMounted) {
           setPost(null);
+          setSuggestedPosts([]);
           setError(err instanceof Error ? err.message : "Unknown error");
         }
       } finally {
@@ -205,6 +232,35 @@ export default function PostPage() {
         />
 
         {/* Footer */}
+        {suggestedPosts.length > 0 && (
+          <section className="mt-12 pt-8 border-t">
+            <h2 className="text-2xl font-bold mb-6">Other News</h2>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {suggestedPosts.map((item) => (
+                <Link
+                  key={item.slug}
+                  href={`/news/${item.slug}`}
+                  className="rounded-lg border bg-card p-4 transition-colors hover:border-primary"
+                >
+                  <h3 className="font-semibold mb-2 line-clamp-2">
+                    {item.metadata.title ?? "Untitled"}
+                  </h3>
+                  {item.metadata.date && (
+                    <p className="text-sm text-muted-foreground mb-2">
+                      {item.metadata.date}
+                    </p>
+                  )}
+                  {item.metadata.description && (
+                    <p className="text-sm text-muted-foreground line-clamp-3">
+                      {item.metadata.description}
+                    </p>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
         <footer className="mt-12 pt-8 border-t">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <Link

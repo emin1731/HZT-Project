@@ -6,6 +6,13 @@ import { MentorCard } from "@/components/mentor-card";
 import { TeamMemberCard } from "@/components/team-member-card";
 import { ScrollSection } from "@/components/scroll-section";
 import { TypingAnimation } from "@/components/typing-animation";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { ArrowRight, Instagram, Sparkles } from "lucide-react";
 import { Mentor } from "@/lib/types";
 
@@ -564,11 +571,22 @@ export default function WelcomePage() {
               </p>
             </div>
 
-            {/* Team Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-              {teamMembers.map((member) => (
-                <TeamMemberCard key={member.id} member={member} />
-              ))}
+            {/* Team Carousel */}
+            <div className="mb-16">
+              <Carousel opts={{ align: "start" }} className="w-full px-10">
+                <CarouselContent>
+                  {teamMembers.map((member) => (
+                    <CarouselItem
+                      key={member.id}
+                      className="md:basis-1/2 lg:basis-1/3"
+                    >
+                      <TeamMemberCard member={member} />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-0" />
+                <CarouselNext className="right-0" />
+              </Carousel>
             </div>
 
             {/* Team Philosophy */}
@@ -604,12 +622,21 @@ export default function WelcomePage() {
               </p>
             </div>
 
-            {/* Mentors Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {mentors.map((mentor) => (
-                <MentorCard key={mentor.id} mentor={mentor} />
-              ))}
-            </div>
+            {/* Mentors Carousel */}
+            <Carousel opts={{ align: "start" }} className="w-full px-10">
+              <CarouselContent>
+                {mentors.map((mentor) => (
+                  <CarouselItem
+                    key={mentor.id}
+                    className="md:basis-1/2 lg:basis-1/3"
+                  >
+                    <MentorCard mentor={mentor} />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="left-0" />
+              <CarouselNext className="right-0" />
+            </Carousel>
           </div>
         </ScrollSection>
 

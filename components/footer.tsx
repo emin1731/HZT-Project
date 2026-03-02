@@ -16,7 +16,7 @@ export function Footer() {
               Future Careers
             </Link>
             <p className="text-sm text-foreground/70 leading-relaxed">
-              Empowering young women through mentorship, education, and
+              Empowering students through mentorship, education, and
               opportunity.
             </p>
           </div>
