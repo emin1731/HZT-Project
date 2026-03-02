@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import Image from "next/image";
 import { getAllPosts } from "@/lib/posts";
 import { ScrollSection } from "@/components/scroll-section";
 
@@ -8,6 +9,11 @@ const typeConfig = {
   event: { label: "Event", variant: "secondary" as const },
   milestone: { label: "Milestone", variant: "outline" as const },
 };
+
+function extractFirstImageFromMarkdown(content: string): string | null {
+  const match = content.match(/!\[[^\]]*\]\(([^\s)]+)(?:\s+"[^"]*")?\)/);
+  return match?.[1] ?? null;
+}
 
 export default function NewsPage() {
   const posts = getAllPosts();
@@ -30,12 +36,25 @@ export default function NewsPage() {
         {posts.map((post) => {
           const typeKey = post.metadata.type ?? "announcement";
           const typeMeta = typeConfig[typeKey] ?? typeConfig.announcement;
+          const previewImage = extractFirstImageFromMarkdown(post.content);
 
           return (
             <article
               key={post.slug}
               className="bg-card border border-border rounded-lg p-8 hover:border-primary transition-colors space-y-4 group cursor-pointer"
             >
+              {previewImage && (
+                <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-border mb-2">
+                  <Image
+                    src={previewImage}
+                    alt={post.metadata.title ?? "News image"}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 768px"
+                  />
+                </div>
+              )}
+
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 space-y-3">
                   <div className="flex items-center gap-3">
