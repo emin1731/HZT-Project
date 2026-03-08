@@ -79,6 +79,13 @@ export interface Mentor {
   instagram?: string;
 }
 
+export interface FeedbackItem {
+  id: string;
+  name: string;
+  text: string;
+  date: string;
+}
+
 // News Item
 export interface NewsItem {
   id: string;

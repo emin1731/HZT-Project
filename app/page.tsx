@@ -6,6 +6,7 @@ import { MentorCard } from "@/components/mentor-card";
 import { TeamMemberCard } from "@/components/team-member-card";
 import { ScrollSection } from "@/components/scroll-section";
 import { TypingAnimation } from "@/components/typing-animation";
+import { FeedbackSection } from "@/components/feedback-section";
 import {
   Carousel,
   CarouselContent,
@@ -14,8 +15,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { ArrowRight, Instagram, Sparkles } from "lucide-react";
-import { Mentor } from "@/lib/types";
+import { getFeedbacks } from "@/lib/feedbacks";
 import { getAllPosts } from "@/lib/posts";
+import { Mentor } from "@/lib/types";
 
 interface TeamMember {
   id: string;
@@ -24,12 +26,6 @@ interface TeamMember {
   bio: string;
   initials: string;
   photo?: string;
-}
-
-interface Feedback {
-  id: string;
-  name: string;
-  text: string;
 }
 
 const teamMembers: TeamMember[] = [
@@ -183,37 +179,10 @@ const sponsors = [
   { name: "Yeni Sən", src: "/sponsors/yeni-sen.png" },
 ];
 
-const feedbacks: Feedback[] = [
-  {
-    id: "1",
-    name: "Aysel Mammadova",
-    text: "The mentorship sessions helped me understand which field truly matches my strengths. I now have a clear roadmap for my next academic and career steps.",
-  },
-  {
-    id: "2",
-    name: "Orkhan Aliyev",
-    text: "Before joining Future Careers, I felt unsure about my future. Talking to mentors made me more confident about my choices and motivated me to take action.",
-  },
-  {
-    id: "3",
-    name: "Nigar Hasanli",
-    text: "The guidance was practical and easy to follow. My child received real support on education planning, not just general advice.",
-  },
-  {
-    id: "4",
-    name: "Kamran Jafarov",
-    text: "I appreciated how approachable the mentors were. They answered my questions honestly and helped me avoid common mistakes at the start of my journey.",
-  },
-  {
-    id: "5",
-    name: "Laman Rahimova",
-    text: "This project creates a supportive environment where students feel heard. It is inspiring to see professionals share knowledge for free.",
-  },
-];
-
-export default function WelcomePage() {
+export default async function WelcomePage() {
   const latestNews = getAllPosts()[0];
   const latestNewsHref = latestNews ? `/news/${latestNews.slug}` : "/news";
+  const initialFeedbacks = await getFeedbacks();
 
   return (
     <>
@@ -680,54 +649,7 @@ export default function WelcomePage() {
           </div>
         </ScrollSection>
 
-        {/* Feedback Section */}
-        <ScrollSection className="pt-24" id="feedback">
-          <div className="max-w-6xl mx-auto">
-            <div className="mb-16">
-              <h1 className="text-5xl font-bold text-primary mb-6">Feedback</h1>
-              <p className="text-xl text-foreground/80 max-w-3xl text-pretty leading-relaxed">
-                Real voices from students and families who joined Future Careers
-                sessions.
-              </p>
-            </div>
-
-            <Carousel
-              opts={{ align: "start", loop: true }}
-              className="w-full px-10"
-            >
-              <CarouselContent>
-                {feedbacks.map((feedback, index) => (
-                  <CarouselItem
-                    key={feedback.id}
-                    className="md:basis-1/2 lg:basis-1/3"
-                  >
-                    <div className="group relative h-full overflow-hidden rounded-2xl border border-primary/20 bg-linear-to-br from-primary/5 via-card to-secondary/10 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-md">
-                      <div className="pointer-events-none absolute -top-8 -right-2 text-8xl leading-none text-primary/10 select-none">
-                        ”
-                      </div>
-                      <div className="relative flex h-full flex-col justify-between">
-                        <p className="text-foreground/85 leading-relaxed text-pretty">
-                          “{feedback.text}”
-                        </p>
-
-                        <div className="mt-6 border-t border-primary/20 pt-4">
-                          <p className="font-semibold text-foreground">
-                            {feedback.name}
-                          </p>
-                          <p className="mt-1 text-xs uppercase tracking-[0.18em] text-primary/70">
-                            Feedback #{index + 1}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="left-0" />
-              <CarouselNext className="right-0" />
-            </Carousel>
-          </div>
-        </ScrollSection>
+        <FeedbackSection initialFeedbacks={initialFeedbacks} />
 
         {/* Reserve Meeting Section */}
         <ScrollSection className="py-24">
