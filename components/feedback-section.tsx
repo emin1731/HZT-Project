@@ -127,9 +127,11 @@ export function FeedbackSection({ initialFeedbacks }: FeedbackSectionProps) {
   return (
     <ScrollSection className="pt-24" id="feedback">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-16">
-          <h1 className="text-5xl font-bold text-primary mb-6">Feedback</h1>
-          <p className="text-xl text-foreground/80 max-w-3xl text-pretty leading-relaxed">
+        <div className="mb-8">
+          <h1 className="text-5xl font-bold text-primary mb-6">
+            Check Out What People Saying
+          </h1>
+          <p className="text-xl text-foreground/80 max-w-3xl text-pretty leading-relaxed text-center">
             Real voices from students and families who joined Future Careers
             sessions.
           </p>

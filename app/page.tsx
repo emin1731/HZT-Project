@@ -189,57 +189,23 @@ export default async function WelcomePage() {
               </div>
             </ScrollSection>
 
-            {/* Statistics */}
+            {/* Feedback */}
             <ScrollSection>
-              <section className="my-12 space-y-6">
-                <div className="text-center space-y-2">
-                  <h2 className="text-3xl font-bold text-primary">
-                    Statistics: Our Impact in Numbers
-                  </h2>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {statistics.map((stat) => (
-                    <div
-                      key={stat.label}
-                      className={`rounded-lg border bg-card text-center hover:border-primary transition-colors ${
-                        stat.primary
-                          ? "border-primary/40 p-8 sm:col-span-2 lg:col-span-2 lg:row-span-2 flex flex-col justify-center"
-                          : "border-border p-6"
-                      }`}
-                    >
-                      <p
-                        className={`font-bold text-primary ${
-                          stat.primary ? "text-5xl md:text-6xl" : "text-4xl"
-                        }`}
-                      >
-                        {stat.value}
-                      </p>
-                      <p
-                        className={`mt-2 text-foreground/80 ${
-                          stat.primary ? "text-lg" : "text-base"
-                        }`}
-                      >
-                        {stat.label}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </section>
+              <FeedbackSection initialFeedbacks={initialFeedbacks} />
             </ScrollSection>
 
             {/* Sponsors */}
             <ScrollSection>
-              <section className="my-12 space-y-6">
-                <div className="text-center space-y-2">
-                  <h2 className="text-3xl font-bold text-primary">Sponsors</h2>
+              <section className="my-12 space-y-6 relative left-1/2 w-screen -translate-x-1/2 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-6xl mx-auto text-center space-y-2">
+                  <h2 className="text-5xl font-bold text-primary">Sponsors</h2>
                   <p className="text-foreground/70">
                     Proudly supported by organizations that invest in youth and
                     education.
                   </p>
                 </div>
 
-                <div className="relative overflow-hidden rounded-lg bg-card py-6">
+                <div className="relative overflow-hidden bg-card py-6">
                   <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-linear-to-r from-background to-transparent" />
                   <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-linear-to-l from-background to-transparent" />
 
@@ -252,37 +218,15 @@ export default async function WelcomePage() {
                         <Image
                           src={sponsor.src}
                           alt={sponsor.name}
-                          width={260}
-                          height={120}
-                          className="h-20 w-auto object-contain"
+                          width={340}
+                          height={160}
+                          className="h-28 w-auto object-contain"
                         />
                       </div>
                     ))}
                   </div>
                 </div>
               </section>
-            </ScrollSection>
-
-            {/* Latest News Preview */}
-            <ScrollSection>
-              <Link href={latestNewsHref} className="block my-12">
-                <div className="bg-card border border-border rounded-lg p-8 animate-fade-up hover:border-primary transition-colors">
-                  <p className="text-sm text-primary font-semibold uppercase tracking-wide">
-                    Latest News
-                  </p>
-                  <h2 className="text-2xl font-bold text-foreground mt-2 mb-4">
-                    {latestNews?.metadata.title ?? "Latest News"}
-                  </h2>
-                  <p className="text-foreground/70 mb-6">
-                    {latestNews?.metadata.description ??
-                      "Read our newest announcement and stay updated with what’s happening at Future Careers."}
-                  </p>
-                  <span className="text-primary font-semibold inline-flex items-center gap-1">
-                    Read Latest News
-                    <span>→</span>
-                  </span>
-                </div>
-              </Link>
             </ScrollSection>
           </div>
         </ScrollSection>
@@ -471,13 +415,76 @@ export default async function WelcomePage() {
           </ScrollSection>
         </div>
 
+        {/* Statistics */}
+        <ScrollSection>
+          <section className="my-12 space-y-6">
+            <div className="text-center space-y-2">
+              <h2 className="text-5xl font-bold text-primary mt-5">
+                Statistics: Our Impact in Numbers
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {statistics.map((stat) => (
+                <div
+                  key={stat.label}
+                  className={`rounded-lg border bg-card text-center hover:border-primary transition-colors ${
+                    stat.primary
+                      ? "border-primary/40 p-8 sm:col-span-2 lg:col-span-2 lg:row-span-2 flex flex-col justify-center"
+                      : "border-border p-6"
+                  }`}
+                >
+                  <p
+                    className={`font-bold text-primary ${
+                      stat.primary ? "text-5xl md:text-6xl" : "text-4xl"
+                    }`}
+                  >
+                    {stat.value}
+                  </p>
+                  <p
+                    className={`mt-2 text-foreground/80 ${
+                      stat.primary ? "text-lg" : "text-base"
+                    }`}
+                  >
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        </ScrollSection>
+
+        {/* Latest News Preview */}
+        <ScrollSection>
+          <Link href={latestNewsHref} className="block my-12">
+            <div className="bg-card border border-border rounded-lg p-8 animate-fade-up hover:border-primary transition-colors">
+              <p className="text-sm text-primary font-semibold uppercase tracking-wide">
+                Latest News
+              </p>
+              <h2 className="text-2xl font-bold text-foreground mt-2 mb-4">
+                {latestNews?.metadata.title ?? "Latest News"}
+              </h2>
+              <p className="text-foreground/70 mb-6">
+                {latestNews?.metadata.description ??
+                  "Read our newest announcement and stay updated with what’s happening at Future Careers."}
+              </p>
+              <span className="text-primary font-semibold inline-flex items-center gap-1">
+                Read Latest News
+                <span>→</span>
+              </span>
+            </div>
+          </Link>
+        </ScrollSection>
+
         {/* Team Section */}
         <ScrollSection className="pt-24" id="team">
           <div className="max-w-6xl mx-auto">
             {/* Header */}
-            <div className="mb-16">
-              <h1 className="text-5xl font-bold text-primary mb-6">Our Team</h1>
-              <p className="text-xl text-foreground/80 max-w-3xl text-pretty leading-relaxed">
+            <div className="mb-16 text-center">
+              <h1 className="text-5xl font-bold text-primary mb-6 ">
+                Our Team
+              </h1>
+              <p className="text-xl text-foreground/80 max-w-3xl text-pretty leading-relaxed mx-auto">
                 Behind Future Careers is a passionate team committed to building
                 opportunities for students and shaping pathways for a better
                 future.
@@ -521,39 +528,40 @@ export default async function WelcomePage() {
 
         {/* Mentors Section */}
         <ScrollSection className="pt-24" id="mentors">
-          <div className="max-w-6xl mx-auto">
-            {/* Header */}
-            <div className="mb-16">
-              <h1 className="text-5xl font-bold text-primary mb-6">
-                Our Mentors
-              </h1>
-              <p className="text-xl text-foreground/80 max-w-3xl text-pretty leading-relaxed">
-                Our mentors are experienced professionals and academic advisors
-                who guide students through career exploration, academic
-                planning, and personal development. They volunteer their
-                knowledge and experience to support students without any fee.
-              </p>
-            </div>
+          <div className="relative left-1/2 w-screen -translate-x-1/2 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto">
+              {/* Header */}
+              <div className="mb-16 text-center mx-auto">
+                <h1 className="text-5xl font-bold text-primary mb-6">
+                  Our Mentors
+                </h1>
+                <p className="text-xl text-foreground/80 max-w-3xl mx-auto text-pretty leading-relaxed">
+                  Our mentors are experienced professionals and academic
+                  advisors who guide students through career exploration,
+                  academic planning, and personal development. They volunteer
+                  their knowledge and experience to support students without any
+                  fee.
+                </p>
+              </div>
 
-            {/* Mentors Carousel */}
-            <Carousel opts={{ align: "start" }} className="w-full px-10">
-              <CarouselContent>
-                {mentors.map((mentor) => (
-                  <CarouselItem
-                    key={mentor.id}
-                    className="md:basis-1/2 lg:basis-1/3"
-                  >
-                    <MentorCard mentor={mentor} />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="left-0" />
-              <CarouselNext className="right-0" />
-            </Carousel>
+              {/* Mentors Carousel */}
+              <Carousel opts={{ align: "start" }} className="w-full px-12">
+                <CarouselContent>
+                  {mentors.map((mentor) => (
+                    <CarouselItem
+                      key={mentor.id}
+                      className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
+                    >
+                      <MentorCard mentor={mentor} />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-0" />
+                <CarouselNext className="right-0" />
+              </Carousel>
+            </div>
           </div>
         </ScrollSection>
-
-        <FeedbackSection initialFeedbacks={initialFeedbacks} />
 
         {/* Reserve Meeting Section */}
         <ScrollSection className="py-24">
