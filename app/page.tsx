@@ -164,6 +164,63 @@ const mentors: Mentor[] = [
     expertise: "Nitq və Diksiya təlimçisi",
     photo: "/nigar-ilgar-qizi.jpg",
   },
+  {
+    id: "15",
+    name: "Ümid",
+    surname: "Salay",
+    expertise: "Code Academy - Creative AI Head",
+    photo: "/mentors/umid-salay.jpeg",
+  },
+  {
+    id: "16",
+    name: "Aydan",
+    surname: "Orucova",
+    expertise: "Physics and STEAM",
+    photo: "/mentors/aydan-orujova.jpeg",
+  },
+  {
+    id: "17",
+    name: "Aygün",
+    surname: "Kərimova",
+    expertise: "Azərbaycan Gənc Müəllimlər Assosiasiyasının İcraçı direktoru",
+    photo: "/mentors/aygun-karimova.jpeg",
+  },
+  {
+    id: "18",
+    name: "Orxan",
+    surname: "Salmanov",
+    expertise: "İnk academy təsisçi",
+    photo: "/mentors/orkhan-salmanov.jpeg",
+  },
+  {
+    id: "19",
+    name: "Osman",
+    surname: "Osmanli",
+    expertise: "Karate üzrə İdmançı",
+    photo: "/mentors/osman-osmanli.jpeg",
+  },
+  {
+    id: "20",
+    name: "Anara",
+    surname: "Quliyeva",
+    expertise: "Klinik Psixoloq, Beynəlxalq Sertifikatlı Oyun Terapisti",
+    photo: "/mentors/anara-quliyeva.jpeg",
+  },
+  {
+    id: "21",
+    name: "Fərid ",
+    surname: "Quluzadə",
+    expertise: "Biznes və Satış üzrə mütəxəssis",
+    photo: "/mentors/farid-quluzada.jpeg",
+  },
+  {
+    id: "22",
+    name: "Ülviyyə ",
+    surname: "Mütəllimzadə",
+    expertise:
+      "Amerika Akkreditasiya Assosasiyası tərəfindən sertifikatlı təlimçi və Evrika Liseyinin İnformatika və STEAM müəllimi",
+    photo: "/mentors/ulviyye-mutellimzade.jpeg",
+  },
 ];
 
 const sponsors = [
