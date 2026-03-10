@@ -32,6 +32,18 @@ const sponsors = [
   { name: "Yeni Sən", src: "/sponsors/yeni-sen.png" },
 ];
 
+const statistics = [
+  {
+    value: "700+",
+    label: "Students participated in our events",
+    primary: true,
+  },
+  { value: "15+", label: "Trainings was conducted" },
+  { value: "10+", label: "Schools were involved" },
+  { value: "5+", label: "Region Schools were involved" },
+  { value: "500+", label: "Participants in trainings" },
+];
+
 export default async function WelcomePage() {
   const latestNews = getAllPosts()[0];
   const latestNewsHref = latestNews ? `/news/${latestNews.slug}` : "/news";
@@ -175,6 +187,45 @@ export default async function WelcomePage() {
                   </p>
                 </div>
               </div>
+            </ScrollSection>
+
+            {/* Statistics */}
+            <ScrollSection>
+              <section className="my-12 space-y-6">
+                <div className="text-center space-y-2">
+                  <h2 className="text-3xl font-bold text-primary">
+                    Statistics: Our Impact in Numbers
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {statistics.map((stat) => (
+                    <div
+                      key={stat.label}
+                      className={`rounded-lg border bg-card text-center hover:border-primary transition-colors ${
+                        stat.primary
+                          ? "border-primary/40 p-8 sm:col-span-2 lg:col-span-2 lg:row-span-2 flex flex-col justify-center"
+                          : "border-border p-6"
+                      }`}
+                    >
+                      <p
+                        className={`font-bold text-primary ${
+                          stat.primary ? "text-5xl md:text-6xl" : "text-4xl"
+                        }`}
+                      >
+                        {stat.value}
+                      </p>
+                      <p
+                        className={`mt-2 text-foreground/80 ${
+                          stat.primary ? "text-lg" : "text-base"
+                        }`}
+                      >
+                        {stat.label}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
             </ScrollSection>
 
             {/* Sponsors */}
