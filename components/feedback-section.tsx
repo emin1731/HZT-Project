@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,6 +16,10 @@ import {
 import { Label } from "@/components/ui/label";
 import { ScrollSection } from "@/components/scroll-section";
 import {
+  addFeedbackAction,
+  loadFeedbacksAction,
+} from "@/app/actions/feedbacks";
+import {
   Carousel,
   CarouselContent,
   CarouselItem,
@@ -24,22 +28,6 @@ import {
 } from "@/components/ui/carousel";
 import { FeedbackItem } from "@/lib/types";
 import { Card } from "./ui/card";
-
-function isFeedbackArray(value: unknown): value is FeedbackItem[] {
-  if (!Array.isArray(value)) {
-    return false;
-  }
-
-  return value.every(
-    (item) =>
-      typeof item === "object" &&
-      item !== null &&
-      typeof item.id === "string" &&
-      typeof item.name === "string" &&
-      typeof item.text === "string" &&
-      typeof item.date === "string",
-  );
-}
 
 interface FeedbackSectionProps {
   initialFeedbacks: FeedbackItem[];
@@ -52,28 +40,6 @@ export function FeedbackSection({ initialFeedbacks }: FeedbackSectionProps) {
   const [text, setText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const loadFeedbacks = async () => {
-      try {
-        const response = await fetch("/api/feedbacks", { cache: "no-store" });
-
-        if (!response.ok) {
-          return;
-        }
-
-        const payload = (await response.json()) as { feedbacks?: unknown };
-
-        if (isFeedbackArray(payload.feedbacks)) {
-          setFeedbacks(payload.feedbacks);
-        }
-      } catch {
-        // Keep initial feedbacks when request fails
-      }
-    };
-
-    loadFeedbacks();
-  }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -89,40 +55,18 @@ export function FeedbackSection({ initialFeedbacks }: FeedbackSectionProps) {
     setSubmitError(null);
 
     try {
-      const response = await fetch("/api/feedbacks", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: normalizedName,
-          text: normalizedText,
-        }),
-      });
+      const result = await addFeedbackAction(normalizedName, normalizedText);
 
-      if (!response.ok) {
-        const errorPayload = (await response.json().catch(() => null)) as {
-          error?: string;
-        } | null;
+      if (result.error || !result.feedback) {
         setSubmitError(
-          errorPayload?.error ??
+          result.error ??
             "Could not submit feedback right now. Please try again.",
         );
         return;
       }
 
-      const payload = (await response.json()) as { feedback?: unknown };
-
-      if (
-        payload.feedback &&
-        typeof payload.feedback === "object" &&
-        isFeedbackArray([payload.feedback])
-      ) {
-        setFeedbacks((previousFeedbacks) => [
-          payload.feedback as FeedbackItem,
-          ...previousFeedbacks,
-        ]);
-      }
+      const latestFeedbacks = await loadFeedbacksAction();
+      setFeedbacks(latestFeedbacks);
 
       setName("");
       setText("");

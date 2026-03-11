@@ -1,64 +1,49 @@
-import { promises as fs } from "node:fs";
-import path from "node:path";
-import { randomUUID } from "node:crypto";
 import { FeedbackItem } from "@/lib/types";
+import { prisma } from "@/lib/prisma";
 
-const FEEDBACKS_FILE_PATH = path.join(
-  process.cwd(),
-  "content",
-  "feedbacks.json",
-);
+type FeedbackRecord = {
+  id: string;
+  name: string;
+  text: string;
+  createdAt: Date;
+};
 
-function isFeedbackArray(value: unknown): value is FeedbackItem[] {
-  if (!Array.isArray(value)) {
-    return false;
-  }
-
-  return value.every(
-    (item) =>
-      typeof item === "object" &&
-      item !== null &&
-      typeof item.id === "string" &&
-      typeof item.name === "string" &&
-      typeof item.text === "string" &&
-      typeof item.date === "string",
-  );
-}
-
-async function ensureFeedbackFile() {
-  try {
-    await fs.access(FEEDBACKS_FILE_PATH);
-  } catch {
-    await fs.mkdir(path.dirname(FEEDBACKS_FILE_PATH), { recursive: true });
-    await fs.writeFile(FEEDBACKS_FILE_PATH, "[]", "utf8");
-  }
+function formatFeedbackDate(date: Date): string {
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(date);
 }
 
 export async function getFeedbacks(): Promise<FeedbackItem[]> {
-  await ensureFeedbackFile();
+  if (!process.env.DATABASE_URL) {
+    return [];
+  }
 
-  const fileContent = await fs.readFile(FEEDBACKS_FILE_PATH, "utf8");
+  const feedbackModel = (prisma as any).feedback;
+
+  if (!feedbackModel) {
+    return [];
+  }
+
+  let feedbacks: FeedbackRecord[];
 
   try {
-    const parsed = JSON.parse(fileContent);
-
-    if (isFeedbackArray(parsed)) {
-      return parsed;
-    }
-
-    return [];
+    feedbacks = await feedbackModel.findMany({
+      orderBy: { createdAt: "desc" },
+    });
   } catch {
     return [];
   }
-}
 
-export async function saveFeedbacks(feedbacks: FeedbackItem[]) {
-  await ensureFeedbackFile();
-  await fs.writeFile(
-    FEEDBACKS_FILE_PATH,
-    JSON.stringify(feedbacks, null, 2),
-    "utf8",
-  );
+  return feedbacks.map((feedback) => ({
+    id: feedback.id,
+    name: feedback.name,
+    text: feedback.text,
+    date: formatFeedbackDate(feedback.createdAt),
+  }));
 }
 
 export async function addFeedback(
@@ -72,23 +57,33 @@ export async function addFeedback(
     return null;
   }
 
-  const date = new Intl.DateTimeFormat("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(new Date());
+  if (!process.env.DATABASE_URL) {
+    return null;
+  }
 
-  const newFeedback: FeedbackItem = {
-    id: randomUUID(),
-    name: normalizedName,
-    text: normalizedText,
-    date,
+  const feedbackModel = (prisma as any).feedback;
+
+  if (!feedbackModel) {
+    return null;
+  }
+
+  let feedback: FeedbackRecord;
+
+  try {
+    feedback = await feedbackModel.create({
+      data: {
+        name: normalizedName,
+        text: normalizedText,
+      },
+    });
+  } catch {
+    return null;
+  }
+
+  return {
+    id: feedback.id,
+    name: feedback.name,
+    text: feedback.text,
+    date: formatFeedbackDate(feedback.createdAt),
   };
-
-  const feedbacks = await getFeedbacks();
-  const updatedFeedbacks = [newFeedback, ...feedbacks];
-  await saveFeedbacks(updatedFeedbacks);
-
-  return newFeedback;
 }
