@@ -266,4 +266,12 @@ export const mentors: Mentor[] = [
     expertise: "Lawyer,Body Language and Oratory Coach",
     photo: "/mentors/leyla-yagub.jpeg",
   },
+  {
+    id: "32",
+    name: "Bəxtiyar",
+    surname: "Quluzadə",
+    expertise:
+      "Azərbaycan Tələbə Gənclər Təşkilatları İttifaqının Proqram meneceri",
+    photo: "/mentors/baxtiyar-quluzade.jpeg",
+  },
 ];
