@@ -143,7 +143,7 @@ export const mentors: Mentor[] = [
     name: "Nigar",
     surname: "İlqar qızı",
     expertise: "Nitq və Diksiya təlimçisi",
-    photo: "/mentors/nigar-ilgar-qizi.jpg",
+    photo: "/mentors/nigar-ilgar.jpeg",
   },
   {
     id: "15",
@@ -201,5 +201,69 @@ export const mentors: Mentor[] = [
     expertise:
       "Amerika Akkreditasiya Assosasiyası tərəfindən sertifikatlı təlimçi və Evrika Liseyinin İnformatika və STEAM müəllimi",
     photo: "/mentors/ulviyye-mutellimzade.jpeg",
+  },
+  {
+    id: "23",
+    name: "Şərəbanı",
+    surname: "Abbasova",
+    expertise: "Uşaq və yeniyetmə psixoloqu",
+    photo: "/mentors/serabani-abbasova.jpeg",
+  },
+  {
+    id: "24",
+    name: "Cəmilə",
+    surname: "İsmayılova",
+    expertise: "Tibb üzrə fəlsəfə doktoru, MD, MSc, PhD",
+    photo: "/mentors/jamila-ismayilova.jpeg",
+  },
+  {
+    id: "25",
+    name: "Sərxan",
+    surname: "Surxay",
+    expertise:
+      "Adroit Agency icraçı direktoru, Azerbaijan Design Summit layihə rəhbəri",
+    photo: "/mentors/serxan-surxay.jpeg",
+  },
+  {
+    id: "26",
+    name: "Rauf",
+    surname: "Aliyev",
+    expertise: "Kapital Bank / Birbank, Tribe Tech Leader",
+    photo: "/mentors/rauf-aliyev.jpeg",
+  },
+  {
+    id: "27",
+    name: "Leyla",
+    surname: "Yaqub",
+    expertise: "Lawyer, Body Language and Oratory Coach",
+    photo: "/mentors/leyla-yagub.jpeg",
+  },
+  {
+    id: "28",
+    name: "Nigar",
+    surname: "Zeynalova",
+    expertise: "İT layihələrin idarəolunması üzrə rəhbər",
+    photo: "/mentors/nigar-zeynalova.jpeg",
+  },
+  {
+    id: "29",
+    name: "Sahibə",
+    surname: "Qədirova",
+    expertise: "Klinik psixoloq | Eda terapiya",
+    photo: "/mentors/sahibe-qedirova.jpeg",
+  },
+  {
+    id: "30",
+    name: "Arif",
+    surname: "Rəhimli",
+    expertise: "Founder of DNT HUB, Corporate Communications Expert, PMP",
+    photo: "/mentors/arif-rehimli.jpeg",
+  },
+  {
+    id: "31",
+    name: "Leyla",
+    surname: "Yaqub",
+    expertise: "Lawyer,Body Language and Oratory Coach",
+    photo: "/mentors/leyla-yagub.jpeg",
   },
 ];
