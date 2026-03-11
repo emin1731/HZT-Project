@@ -52,7 +52,7 @@ export default async function WelcomePage() {
   return (
     <>
       {/* <Navigation /> */}
-      <header className="pt-24 text-white">
+      <header className="pt-10 text-white">
         <ScrollSection className="relative overflow-hidden min-h-screen w-full h-full -mt-24">
           {/* Background Video */}
           <video
@@ -147,7 +147,7 @@ export default async function WelcomePage() {
           </div>
         </ScrollSection>
       </header>
-      <main className="pt-24 pb-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <main className="py-5 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
         <ScrollSection>
           <div className="max-w-4xl mx-auto text-center space-y-8">
@@ -196,7 +196,7 @@ export default async function WelcomePage() {
 
             {/* Sponsors */}
             <ScrollSection>
-              <section className="my-12 space-y-6 relative left-1/2 w-screen -translate-x-1/2 px-4 sm:px-6 lg:px-8">
+              <section className="my-16 space-y-6 relative left-1/2 w-screen -translate-x-1/2 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-6xl mx-auto text-center space-y-2">
                   <h2 className="text-5xl font-bold text-primary">Sponsors</h2>
                   <p className="text-foreground/70">
@@ -477,7 +477,7 @@ export default async function WelcomePage() {
         </ScrollSection>
 
         {/* Team Section */}
-        <ScrollSection className="pt-24" id="team">
+        <ScrollSection className="pt-10" id="team">
           <div className="max-w-6xl mx-auto">
             {/* Header */}
             <div className="mb-16 text-center">

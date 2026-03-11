@@ -1,5 +1,6 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { randomUUID } from "node:crypto";
 import { FeedbackItem } from "@/lib/types";
 
 const FEEDBACKS_FILE_PATH = path.join(
@@ -79,7 +80,7 @@ export async function addFeedback(
   }).format(new Date());
 
   const newFeedback: FeedbackItem = {
-    id: crypto.randomUUID(),
+    id: randomUUID(),
     name: normalizedName,
     text: normalizedText,
     date,

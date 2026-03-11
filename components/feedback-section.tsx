@@ -1,7 +1,6 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -52,6 +51,7 @@ export function FeedbackSection({ initialFeedbacks }: FeedbackSectionProps) {
   const [name, setName] = useState("");
   const [text, setText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadFeedbacks = async () => {
@@ -86,6 +86,7 @@ export function FeedbackSection({ initialFeedbacks }: FeedbackSectionProps) {
     }
 
     setIsSubmitting(true);
+    setSubmitError(null);
 
     try {
       const response = await fetch("/api/feedbacks", {
@@ -100,6 +101,13 @@ export function FeedbackSection({ initialFeedbacks }: FeedbackSectionProps) {
       });
 
       if (!response.ok) {
+        const errorPayload = (await response.json().catch(() => null)) as {
+          error?: string;
+        } | null;
+        setSubmitError(
+          errorPayload?.error ??
+            "Could not submit feedback right now. Please try again.",
+        );
         return;
       }
 
@@ -119,13 +127,15 @@ export function FeedbackSection({ initialFeedbacks }: FeedbackSectionProps) {
       setName("");
       setText("");
       setIsDialogOpen(false);
+    } catch {
+      setSubmitError("Network error. Please check your connection and retry.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <ScrollSection className="pt-24" id="feedback">
+    <ScrollSection className="pt-10" id="feedback">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <h1 className="text-5xl font-bold text-primary mb-6">
@@ -174,22 +184,32 @@ export function FeedbackSection({ initialFeedbacks }: FeedbackSectionProps) {
         </Carousel>
 
         <div className="mt-8 px-10">
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Card className="rounded-2xl border-dashed border-primary/40 bg-primary/5 p-6">
-                <h1 className="text-2xl font-semibold text-center">
-                  Want to share your feedback?
-                </h1>
-                <p className="text-center">
-                  You can share your experience with Future Careers. Just press
-                  the button below and express your thoughts.
-                </p>
+          <Dialog
+            open={isDialogOpen}
+            onOpenChange={(open) => {
+              setIsDialogOpen(open);
+              if (open) {
+                setSubmitError(null);
+              }
+            }}
+          >
+            <Card className="rounded-2xl border-dashed border-primary/40 bg-primary/5 p-6">
+              <h1 className="text-2xl font-semibold text-center">
+                Want to share your feedback?
+              </h1>
+              <p className="text-center">
+                You can share your experience with Future Careers. Just press
+                the button below and express your thoughts.
+              </p>
 
-                <Button type="button" variant="default" className="w-auto">
-                  Add your feedback
-                </Button>
-              </Card>
-            </DialogTrigger>
+              <div className="flex justify-center">
+                <DialogTrigger asChild>
+                  <Button type="button" variant="default" className="w-auto">
+                    Add your feedback
+                  </Button>
+                </DialogTrigger>
+              </div>
+            </Card>
 
             <DialogContent>
               <DialogHeader>
@@ -223,6 +243,12 @@ export function FeedbackSection({ initialFeedbacks }: FeedbackSectionProps) {
                     required
                   />
                 </div>
+
+                {submitError ? (
+                  <p className="text-sm text-destructive" role="alert">
+                    {submitError}
+                  </p>
+                ) : null}
 
                 <DialogFooter>
                   <Button type="submit" disabled={isSubmitting}>
