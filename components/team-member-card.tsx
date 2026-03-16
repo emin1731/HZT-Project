@@ -12,17 +12,17 @@ interface TeamMemberCardProps {
 
 export function TeamMemberCard({ member }: TeamMemberCardProps) {
   return (
-    <div className="bg-card border border-border rounded-lg overflow-hidden hover:border-primary transition-colors h-full flex flex-col">
+    <div className="group bg-card border border-border rounded-2xl overflow-hidden shadow-sm transition-all duration-300 hover:scale-[1.04] hover:shadow-xl h-full flex flex-col">
       {/* Photo */}
       {member.photo && (
-        <div className="w-full bg-muted">
+        <div className="w-full overflow-hidden bg-muted">
           <Image
             src={member.photo}
             alt={member.name}
             width={800}
             height={600}
             sizes="(max-width: 768px) 100vw, 33vw"
-            className="w-full h-auto object-contain"
+            className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-110"
           />
         </div>
       )}

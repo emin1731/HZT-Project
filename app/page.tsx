@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Navigation } from "@/components/navigation";
 import { Button } from "@/components/ui/button";
-import { MentorCard } from "@/components/mentor-card";
+import { MentorMarqueeGrid } from "@/components/mentor-marquee-grid";
 import { TeamMemberCard } from "@/components/team-member-card";
 import { ScrollSection } from "@/components/scroll-section";
 import { TypingAnimation } from "@/components/typing-animation";
@@ -52,97 +52,165 @@ export default async function WelcomePage() {
   return (
     <>
       {/* <Navigation /> */}
-      <header className="pt-10 text-white">
-        <ScrollSection className="relative overflow-hidden min-h-screen w-full h-full -mt-24">
-          {/* Background Video */}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full object-cover"
-          >
-            <source src="/hero-video.mp4" type="video/mp4" />
-          </video>
-          {/* Dimming Overlay */}
-          <div className="absolute inset-0 bg-black/40" />
-          <div className="absolute inset-0 bg-gradient-to-br from-coral-light via-transparent to-gold-light opacity-30" />
-          <div className="relative min-h-screen flex items-center justify-center px-4 py-32">
-            <div className="max-w-3xl mx-auto text-center">
-              <h1 className="font-serif text-primary-foreground text-5xl sm:text-5xl md:text-6xl font-bold mb-2">
-                <TypingAnimation text="Future Careers" speed={60} />
-              </h1>
-              <p className="font-serif text-primary-foreground text-xl md:text-2xl font-semibold mb-6 animate-fade-up stagger-1">
-                <TypingAnimation
-                  text="For Better Future"
-                  speed={60}
-                  delay={1400}
+      <header className="pt-32">
+        <ScrollSection className="relative -mt-24 px-4 py-16 sm:px-6 lg:px-8 lg:h-screen lg:flex lg:flex-col lg:justify-center lg:py-0">
+          <div className="mx-auto grid w-full max-w-7xl gap-6 lg:grid-cols-[minmax(0,1.8fr)_minmax(0,1fr)] lg:items-stretch lg:h-[calc(100vh-8rem)]">
+            {/* Main card — LEFT on desktop */}
+            <article className="rounded-3xl border border-border bg-card shadow-sm overflow-hidden flex flex-col lg:overflow-y-auto">
+              <div className="relative h-56 w-full shrink-0 sm:h-64 lg:h-72">
+                <Image
+                  src="/hero-img-2.jpg"
+                  alt="Future Careers mentorship and guidance"
+                  fill
+                  className="object-cover"
                 />
-              </p>
-              <p className="text-lg md:text-xl text-primary-foreground mb-8 animate-fade-up stagger-1">
-                Guiding school and university students toward confident academic
-                and career decisions through mentorship and structured career
-                pathways.
-              </p>
-              <p className="text-base md:text-lg text-foreground mb-8 animate-fade-up stagger-1">
-                <span className="font-semibold text-primary-foreground">
-                  <Sparkles className="inline-block h-5 w-5 m-2" />
-                  Everything is completely free.
-                </span>
-                <span className="block mt-2 text-primary-foreground">
-                  All you need to do is reserve your seat and start your
-                  journey.
-                </span>
-              </p>
-              <div className="flex flex-col gap-4 justify-center items-center animate-fade-up stagger-2">
-                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                  <Button variant="hero" size="xl" asChild>
-                    <Link
-                      target="blank"
-                      href="https://docs.google.com/forms/d/e/1FAIpQLSdnQH8aIQbrU3t2HaVln-cPq-F4cd1r3MgLYoJ2-dANDOfGMw/viewform"
-                    >
-                      Reserve Your Meeting{" "}
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </Link>
-                  </Button>
+              </div>
 
-                  <Button variant="hero" size="xl" asChild>
-                    <Link href="#about">
-                      Explore More
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </Link>
-                  </Button>
-                </div>
-                <div className="flex gap-4 justify-center items-center">
-                  <Button variant="hero" size="lg" asChild>
-                    <Link
-                      href="https://www.instagram.com/futurecareersproject/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-primary-foreground hover:text-primary-foreground/80"
-                    >
-                      <Instagram className="size-12" />
-                      <span className="text-base font-medium">Follow Us</span>
-                    </Link>
-                  </Button>
-                  <Button variant="hero" size="lg" asChild>
-                    <Link
-                      href="https://chat.whatsapp.com/DjF8xA4ieaS5k7wfrnp5eb"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center gap-2 text-primary-foreground hover:text-primary-foreground/80"
-                    >
-                      <span
-                        aria-hidden="true"
-                        className="size-6 bg-current [mask-image:url('/icons/whatsapp-icon.svg')] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]"
-                      />
-                      <span className="text-base font-medium">
-                        Join the group
-                      </span>
-                    </Link>
-                  </Button>
+              <div className="p-6 sm:p-8 lg:p-10 flex flex-col flex-1">
+                <h1 className="font-serif text-4xl font-bold sm:text-5xl lg:text-6xl text-primary">
+                  <TypingAnimation text="Future Careers" speed={60} />
+                </h1>
+                <p className="font-serif mt-3 text-xl font-semibold md:text-2xl animate-fade-up stagger-1 text-primary">
+                  <TypingAnimation
+                    text="For Better Future"
+                    speed={60}
+                    delay={1400}
+                  />
+                </p>
+                <p className="mt-6 text-lg md:text-xl animate-fade-up stagger-1">
+                  Guiding school and university students toward confident
+                  academic and career decisions through mentorship and
+                  structured career pathways.
+                </p>
+                <p className="mt-6 text-base md:text-lg text-foreground animate-fade-up stagger-1">
+                  <span className="font-semibold">
+                    <Sparkles className="inline-block h-5 w-5 my-1" />
+                    Everything is completely free.
+                  </span>
+                  <span className="block text-sm">
+                    All you need to do is reserve your seat and start your
+                    journey.
+                  </span>
+                </p>
+
+                <div className="mt-4 flex flex-col gap-4 animate-fade-up stagger-2">
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Button variant="hero" size="xl" asChild>
+                      <Link
+                        target="_blank"
+                        href="https://docs.google.com/forms/d/e/1FAIpQLSdnQH8aIQbrU3t2HaVln-cPq-F4cd1r3MgLYoJ2-dANDOfGMw/viewform"
+                      >
+                        Reserve Your Meeting
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Link>
+                    </Button>
+
+                    <Button variant="hero" size="xl" asChild>
+                      <Link href="#about">
+                        Explore More
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Link>
+                    </Button>
+                  </div>
+
+                  <div className="flex flex-wrap gap-4">
+                    <Button variant="hero" size="lg" asChild>
+                      <Link
+                        href="https://www.instagram.com/futurecareersproject/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 hover:text-primary-foreground/80"
+                      >
+                        <Instagram className="size-12" />
+                        <span className="text-base font-medium">Follow Us</span>
+                      </Link>
+                    </Button>
+
+                    <Button variant="hero" size="lg" asChild>
+                      <Link
+                        href="https://chat.whatsapp.com/DjF8xA4ieaS5k7wfrnp5eb"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-center gap-2 hover:text-primary-foreground/80"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="size-6 bg-current [mask-image:url('/icons/whatsapp-icon.svg')] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]"
+                        />
+                        <span className="text-base font-medium">
+                          Join the group
+                        </span>
+                      </Link>
+                    </Button>
+                  </div>
                 </div>
               </div>
+            </article>
+
+            {/* Side cards — RIGHT on desktop */}
+            <div className="flex flex-col gap-6 lg:h-full">
+              {/* Reserve card — taller, with image */}
+              <article className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden flex flex-col lg:flex-1">
+                <div className="relative h-48 w-full shrink-0 lg:h-56">
+                  <Image
+                    src="/hero-img-1.jpg"
+                    alt="Reserve a Career Meeting"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-6 sm:p-7 flex flex-col flex-1">
+                  <p className="text-sm font-semibold uppercase tracking-wide text-primary">
+                    Quick Action
+                  </p>
+                  <h2 className="mt-2 text-2xl font-bold text-foreground">
+                    Reserve a Career Meeting
+                  </h2>
+                  <p className="mt-3 text-foreground/75 flex-1">
+                    Book your one-to-one guidance session and get support for
+                    your next academic or career step.
+                  </p>
+                  <Button
+                    className="mt-6 w-full"
+                    variant="default"
+                    size="lg"
+                    asChild
+                  >
+                    <Link
+                      target="_blank"
+                      href="https://docs.google.com/forms/d/e/1FAIpQLSdnQH8aIQbrU3t2HaVln-cPq-F4cd1r3MgLYoJ2-dANDOfGMw/viewform"
+                    >
+                      Reserve Your Meeting
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Link>
+                  </Button>
+                </div>
+              </article>
+
+              {/* Feedback card — shorter */}
+              <article className="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-7">
+                <p className="text-sm font-semibold uppercase tracking-wide text-primary">
+                  Community Voice
+                </p>
+                <h2 className="mt-2 text-2xl font-bold text-foreground">
+                  See Participant Feedbacks
+                </h2>
+                <p className="mt-3 text-foreground/75">
+                  Jump to feedbacks and read what students say about our
+                  mentorship and events.
+                </p>
+                <Button
+                  className="mt-6 w-full"
+                  variant="outline"
+                  size="lg"
+                  asChild
+                >
+                  <Link href="#feedbacks">
+                    Go to Feedbacks
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+              </article>
             </div>
           </div>
         </ScrollSection>
@@ -190,7 +258,7 @@ export default async function WelcomePage() {
             </ScrollSection>
 
             {/* Feedback */}
-            <ScrollSection>
+            <ScrollSection id="feedbacks">
               <FeedbackSection initialFeedbacks={initialFeedbacks} />
             </ScrollSection>
 
@@ -544,21 +612,7 @@ export default async function WelcomePage() {
                 </p>
               </div>
 
-              {/* Mentors Carousel */}
-              <Carousel opts={{ align: "start" }} className="w-full px-12">
-                <CarouselContent>
-                  {mentors.map((mentor) => (
-                    <CarouselItem
-                      key={mentor.id}
-                      className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
-                    >
-                      <MentorCard mentor={mentor} />
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="left-0" />
-                <CarouselNext className="right-0" />
-              </Carousel>
+              <MentorMarqueeGrid mentors={mentors} />
             </div>
           </div>
         </ScrollSection>

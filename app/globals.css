@@ -10,7 +10,7 @@
   --card-foreground: oklch(0.16 0.01 240);
   --popover: oklch(0.98 0.001 0);
   --popover-foreground: oklch(0.16 0.01 240);
-  --primary: oklch(0.38 0.19 270);
+  --primary: #2c58b1;
   --primary-foreground: oklch(0.98 0.001 0);
   --secondary: oklch(0.52 0.15 265);
   --secondary-foreground: oklch(0.98 0.001 0);
@@ -183,6 +183,41 @@
     justify-content: center;
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+
+  @keyframes mentor-marquee-left {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes mentor-marquee-right {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .mentor-marquee-track {
+    display: flex;
+    width: max-content;
+  }
+
+  .mentor-marquee-left {
+    animation: mentor-marquee-left 50s linear infinite;
+  }
+
+  .mentor-marquee-right {
+    animation: mentor-marquee-right 50s linear infinite;
+  }
+
+  .mentor-marquee-row:hover .mentor-marquee-track {
+    animation-play-state: paused;
   }
 
   @keyframes section-scale-fade {

@@ -72,13 +72,11 @@ export function Navigation() {
                   <Link
                     href={link.href}
                     className={cn(
-                      "text-sm transition-colors hover:text-primary",
+                      "text-sm transition-colors text-primary",
                       pathname === link.href
                         ? "text-primary font-semibold"
                         : "text-foreground",
-                      isHomePage &&
-                        !isScrolled &&
-                        "text-primary-foreground hover:text-primary",
+                      isHomePage && !isScrolled && "text-primary",
                     )}
                   >
                     {link.label}
