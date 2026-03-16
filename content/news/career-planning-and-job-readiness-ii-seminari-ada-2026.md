@@ -1,5 +1,5 @@
 ---
-title: "ADA Universitetində "Career Planning and Job Readiness" seminarı uğurla baş tutdu"
+title: "ADA Universitetində 'Career Planning and Job Readiness' seminarı uğurla baş tutdu"
 date: "2026-02-27"
 author: "Future Careers Team"
 description: "Future Careers Pathway Program çərçivəsində keçirilən seminarda iştirakçılar karyera planlaması, əmək bazarına hazırlıq və iş müsahibələrinə effektiv hazırlıq mövzularında dəyərli biliklər əldə etdilər."
