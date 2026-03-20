@@ -3,21 +3,16 @@ import Image from "next/image";
 import { Navigation } from "@/components/navigation";
 import { Button } from "@/components/ui/button";
 import { MentorMarqueeGrid } from "@/components/mentor-marquee-grid";
-import { TeamMemberCard } from "@/components/team-member-card";
 import { ScrollSection } from "@/components/scroll-section";
 import { TypingAnimation } from "@/components/typing-animation";
 import { FeedbackSection } from "@/components/feedback-section";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { ArrowRight, Instagram, Sparkles } from "lucide-react";
+import { ArrowRight, Info, Instagram, Sparkles } from "lucide-react";
 import { getFeedbacks } from "@/lib/feedbacks";
 import { getAllPosts } from "@/lib/posts";
 import { mentors, teamMembers } from "@/lib/home-data";
+import { Badge } from "@/components/ui/badge";
+import { AppLink } from "@/components/ui/link";
+import { NewsPopupModal } from "@/components/news-popup-modal";
 
 const sponsors = [
   { name: "Beyin Yatırım", src: "/sponsors/beyin-yatirim.png" },
@@ -42,175 +37,86 @@ const statistics = [
   { value: "10+", label: "Schools were involved" },
   { value: "5+", label: "Region Schools were involved" },
   { value: "500+", label: "Participants in trainings" },
+  { value: "50+", label: "Mentors participated in our events" },
 ];
 
+function extractFirstImageFromMarkdown(content: string): string | null {
+  const match = content.match(/!\[[^\]]*\]\(([^\s)]+)(?:\s+"[^"]*")?\)/);
+  return match?.[1] ?? null;
+}
+
 export default async function WelcomePage() {
-  const latestNews = getAllPosts()[0];
+  const allNews = getAllPosts();
+  const latestNews = allNews[0];
   const latestNewsHref = latestNews ? `/news/${latestNews.slug}` : "/news";
+  const recentNews = allNews.slice(0, 3);
   const initialFeedbacks = await getFeedbacks();
 
   return (
     <>
       {/* <Navigation /> */}
       <header className="pt-32">
-        <ScrollSection className="relative -mt-24 px-4 py-16 sm:px-6 lg:px-8 lg:h-screen lg:flex lg:flex-col lg:justify-center lg:py-0">
-          <div className="mx-auto grid w-full max-w-7xl gap-6 lg:grid-cols-[minmax(0,1.8fr)_minmax(0,1fr)] lg:items-stretch lg:h-[calc(100vh-8rem)]">
-            {/* Main card — LEFT on desktop */}
-            <article className="rounded-3xl border border-border bg-card shadow-sm overflow-hidden flex flex-col lg:overflow-y-auto">
-              <div className="relative h-56 w-full shrink-0 sm:h-64 lg:h-72">
-                <Image
-                  src="/hero-img-2.jpg"
-                  alt="Future Careers mentorship and guidance"
-                  fill
-                  className="object-cover"
-                />
-              </div>
+        <ScrollSection className="relative -mt-24 px-4 md:py-16 sm:px-6 lg:px-8 lg:h-screen lg:flex lg:flex-col lg:justify-center lg:py-0">
+          <div className="mx-auto flex w-full max-w-4xl items-center justify-center lg:h-[calc(100vh-8rem)]">
+            <div className="p-6 py-20 sm:p-8 lg:p-10 flex flex-col flex-1 text-center items-center">
+              <Badge
+                className="text-sm md:text-md px-5 rounded-full mb-3 uppercase tracking-wide animate-fade-up"
+                variant={"outline"}
+              >
+                <Info className="mr-1" />
+                With the partnership of ADA University
+              </Badge>
+              <h1 className="text-4xl font-bold sm:text-5xl lg:text-6xl">
+                Design Your Future Career with{" "}
+                <span className="text-primary">Future Careers</span>
+              </h1>
+              <p className="my-5 text-lg md:text-xl animate-fade-up stagger-1 max-w-3xl">
+                Guiding school and university students toward confident academic
+                and career decisions through mentorship and structured career
+                pathways.
+              </p>
 
-              <div className="p-6 sm:p-8 lg:p-10 flex flex-col flex-1">
-                <h1 className="font-serif text-4xl font-bold sm:text-5xl lg:text-6xl text-primary">
-                  <TypingAnimation text="Future Careers" speed={60} />
-                </h1>
-                <p className="font-serif mt-3 text-xl font-semibold md:text-2xl animate-fade-up stagger-1 text-primary">
-                  <TypingAnimation
-                    text="For Better Future"
-                    speed={60}
-                    delay={1400}
-                  />
-                </p>
-                <p className="mt-6 text-lg md:text-xl animate-fade-up stagger-1">
-                  Guiding school and university students toward confident
-                  academic and career decisions through mentorship and
-                  structured career pathways.
-                </p>
-                <p className="mt-6 text-base md:text-lg text-foreground animate-fade-up stagger-1">
-                  <span className="font-semibold">
-                    <Sparkles className="inline-block h-5 w-5 my-1" />
-                    Everything is completely free.
-                  </span>
-                  <span className="block text-sm">
-                    All you need to do is reserve your seat and start your
-                    journey.
-                  </span>
-                </p>
-
-                <div className="mt-4 flex flex-col gap-4 animate-fade-up stagger-2">
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <Button variant="hero" size="xl" asChild>
-                      <Link
-                        target="_blank"
-                        href="https://docs.google.com/forms/d/e/1FAIpQLSdnQH8aIQbrU3t2HaVln-cPq-F4cd1r3MgLYoJ2-dANDOfGMw/viewform"
-                      >
-                        Reserve Your Meeting
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                      </Link>
-                    </Button>
-
-                    <Button variant="hero" size="xl" asChild>
-                      <Link href="#about">
-                        Explore More
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                      </Link>
-                    </Button>
-                  </div>
-
-                  <div className="flex flex-wrap gap-4">
-                    <Button variant="hero" size="lg" asChild>
-                      <Link
-                        href="https://www.instagram.com/futurecareersproject/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 hover:text-primary-foreground/80"
-                      >
-                        <Instagram className="size-12" />
-                        <span className="text-base font-medium">Follow Us</span>
-                      </Link>
-                    </Button>
-
-                    <Button variant="hero" size="lg" asChild>
-                      <Link
-                        href="https://chat.whatsapp.com/DjF8xA4ieaS5k7wfrnp5eb"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group flex items-center gap-2 hover:text-primary-foreground/80"
-                      >
-                        <span
-                          aria-hidden="true"
-                          className="size-6 bg-current [mask-image:url('/icons/whatsapp-icon.svg')] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]"
-                        />
-                        <span className="text-base font-medium">
-                          Join the group
-                        </span>
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            {/* Side cards — RIGHT on desktop */}
-            <div className="flex flex-col gap-6 lg:h-full">
-              {/* Reserve card — taller, with image */}
-              <article className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden flex flex-col lg:flex-1">
-                <div className="relative h-48 w-full shrink-0 lg:h-56">
-                  <Image
-                    src="/hero-img-1.jpg"
-                    alt="Reserve a Career Meeting"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6 sm:p-7 flex flex-col flex-1">
-                  <p className="text-sm font-semibold uppercase tracking-wide text-primary">
-                    Quick Action
-                  </p>
-                  <h2 className="mt-2 text-2xl font-bold text-foreground">
-                    Reserve a Career Meeting
-                  </h2>
-                  <p className="mt-3 text-foreground/75 flex-1">
-                    Book your one-to-one guidance session and get support for
-                    your next academic or career step.
-                  </p>
-                  <Button
-                    className="mt-6 w-full"
-                    variant="default"
-                    size="lg"
-                    asChild
+              <div className="mt-2 flex flex-col gap-4 animate-fade-up stagger-2 items-center">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <AppLink
+                    variant="heroCta"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSdnQH8aIQbrU3t2HaVln-cPq-F4cd1r3MgLYoJ2-dANDOfGMw/viewform"
                   >
-                    <Link
-                      target="_blank"
-                      href="https://docs.google.com/forms/d/e/1FAIpQLSdnQH8aIQbrU3t2HaVln-cPq-F4cd1r3MgLYoJ2-dANDOfGMw/viewform"
-                    >
-                      Reserve Your Meeting
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </Link>
-                  </Button>
-                </div>
-              </article>
-
-              {/* Feedback card — shorter */}
-              <article className="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-7">
-                <p className="text-sm font-semibold uppercase tracking-wide text-primary">
-                  Community Voice
-                </p>
-                <h2 className="mt-2 text-2xl font-bold text-foreground">
-                  See Participant Feedbacks
-                </h2>
-                <p className="mt-3 text-foreground/75">
-                  Jump to feedbacks and read what students say about our
-                  mentorship and events.
-                </p>
-                <Button
-                  className="mt-6 w-full"
-                  variant="outline"
-                  size="lg"
-                  asChild
-                >
-                  <Link href="#feedbacks">
-                    Go to Feedbacks
+                    Reserve Your Meeting
                     <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-              </article>
+                  </AppLink>
+
+                  <AppLink variant="heroCta" href="#about">
+                    Explore More
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </AppLink>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-center gap-1 text-base">
+                  <span>Follow us on</span>
+                  <AppLink
+                    href="https://www.instagram.com/futurecareersproject/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="hoverUnderline"
+                    className="font-medium text-[#dd366d] hover:text-[#C13584]"
+                  >
+                    Instagram
+                  </AppLink>
+                  <span>or join our</span>
+                  <AppLink
+                    href="https://chat.whatsapp.com/DjF8xA4ieaS5k7wfrnp5eb"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="hoverUnderline"
+                    className="font-medium text-[#25D366] hover:text-[#1DA851]"
+                  >
+                    Whatsapp group
+                  </AppLink>
+                </div>
+              </div>
             </div>
           </div>
         </ScrollSection>
@@ -220,8 +126,8 @@ export default async function WelcomePage() {
         <ScrollSection>
           <div className="max-w-4xl mx-auto text-center space-y-8">
             {/* Core Focus Points */}
-            <ScrollSection>
-              <div className="grid md:grid-cols-3 gap-6 py-12">
+            {/* <ScrollSection>
+              <div className="grid md:grid-cols-3 gap-6 md:py-8">
                 <div className="space-y-3 p-6 rounded-lg bg-card border border-border hover:border-primary transition-colors">
                   <div className="text-3xl font-bold text-primary">01</div>
                   <h3 className="text-xl font-semibold text-foreground">
@@ -255,6 +161,64 @@ export default async function WelcomePage() {
                   </p>
                 </div>
               </div>
+            </ScrollSection> */}
+
+            {/* Recent News */}
+            <ScrollSection>
+              <section className="space-y-6 py-5">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <h2 className="text-4xl font-bold text-primary">
+                    Latest updates from our events
+                  </h2>
+
+                  <AppLink
+                    variant="heroCta"
+                    href="/news"
+                    className="self-start rounded-full px-5 text-base h-10"
+                  >
+                    See more
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </AppLink>
+                </div>
+
+                <hr className="border-t border-border" />
+
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                  {recentNews.map((post) => {
+                    const imageSrc =
+                      extractFirstImageFromMarkdown(post.content) ??
+                      "/future-careers-logo.png";
+
+                    return (
+                      <Link
+                        key={post.slug}
+                        href={`/news/${post.slug}`}
+                        className="group relative block h-88 overflow-hidden rounded-2xl border border-border bg-card"
+                      >
+                        <Image
+                          src={imageSrc}
+                          alt={post.metadata.title ?? "Recent news"}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-110"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                        />
+
+                        <div className="absolute inset-0 bg-black/40 transition-colors duration-300 group-hover:bg-black/55" />
+
+                        <div className="absolute inset-x-0 bottom-0 z-10 flex min-h-40 flex-col justify-end p-6 text-left text-white transition-transform duration-300 group-hover:-translate-y-1 sm:p-7">
+                          <h3 className="line-clamp-2 text-xl font-semibold leading-tight">
+                            {post.metadata.title ?? "Untitled"}
+                          </h3>
+                          <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-white/90">
+                            {post.metadata.description ??
+                              "Discover our latest milestone and event highlights."}
+                          </p>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </section>
             </ScrollSection>
 
             {/* Feedback */}
@@ -266,7 +230,9 @@ export default async function WelcomePage() {
             <ScrollSection>
               <section className="my-16 space-y-6 relative left-1/2 w-screen -translate-x-1/2 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-6xl mx-auto text-center space-y-2">
-                  <h2 className="text-5xl font-bold text-primary">Sponsors</h2>
+                  <h2 className="text-4xl font-bold text-primary">
+                    Meet Our Partners
+                  </h2>
                   <p className="text-foreground/70">
                     Proudly supported by organizations that invest in youth and
                     education.
@@ -304,7 +270,7 @@ export default async function WelcomePage() {
           {/* Header */}
           <ScrollSection id="about">
             <div className="mb-16">
-              <h1 className="text-5xl font-bold mb-8 text-primary">
+              <h1 className="text-4xl font-bold mb-8 text-primary">
                 About Future Careers
               </h1>
               <p className="text-xl text-foreground/80 text-pretty leading-relaxed">
@@ -343,7 +309,7 @@ export default async function WelcomePage() {
           {/* Access & Support */}
           <ScrollSection>
             <div className="mb-16 space-y-6 bg-card border border-border rounded-lg p-8">
-              <h2 className="text-2xl font-bold text-foreground">
+              <h2 className="text-2xl font-bold text-primary">
                 Free & Supported
               </h2>
               <div className="space-y-4 text-foreground/80 leading-relaxed">
@@ -365,21 +331,33 @@ export default async function WelcomePage() {
 
           {/* Legacy & Mission */}
           <ScrollSection>
-            <div className="mb-16 space-y-6 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg p-8 border border-primary/20">
-              <h2 className="text-2xl font-bold text-foreground">
-                The Taghiyev Legacy
-              </h2>
-              <p className="text-lg text-foreground/80 text-pretty leading-relaxed">
-                Future Careers is proudly developed within the framework of HZT
-                Awards 2026 and is dedicated to the legacy of Haji Zeynalabdin
-                Taghiyev, a visionary philanthropist who believed in the power
-                of education and youth empowerment.
-              </p>
-              <p className="text-lg text-foreground/80 text-pretty leading-relaxed">
-                Inspired by his commitment to future generations, we continue
-                that mission by guiding students toward clarity, opportunity,
-                and long term success.
-              </p>
+            <div className="mb-16 bg-linear-to-br from-primary/5 to-secondary/5 rounded-lg border border-primary/20 overflow-hidden">
+              <div className="flex flex-col lg:flex-row items-center gap-8 p-8">
+                <div className="flex-1 relative h-80 lg:h-96 w-full lg:w-auto">
+                  <Image
+                    src="/taghiyev.jpg"
+                    alt="Haji Zeynalabdin Taghiyev"
+                    fill
+                    className="object-cover rounded-lg"
+                  />
+                </div>
+                <div className="flex-1 space-y-6">
+                  <h2 className="text-2xl font-bold text-primary">
+                    The Taghiyev Legacy
+                  </h2>
+                  <p className="text-lg text-foreground/80 text-pretty leading-relaxed">
+                    Future Careers is proudly developed within the framework of
+                    HZT Awards 2026 and is dedicated to the legacy of Haji
+                    Zeynalabdin Taghiyev, a visionary philanthropist who
+                    believed in the power of education and youth empowerment.
+                  </p>
+                  <p className="text-lg text-foreground/80 text-pretty leading-relaxed">
+                    Inspired by his commitment to future generations, we
+                    continue that mission by guiding students toward clarity,
+                    opportunity, and long term success.
+                  </p>
+                </div>
+              </div>
             </div>
           </ScrollSection>
 
@@ -387,9 +365,7 @@ export default async function WelcomePage() {
           <ScrollSection>
             <div className="flex gap-x-10 flex-col lg:flex-row">
               <div className="flex-1 mb-16 space-y-6 bg-card border border-border rounded-lg p-8">
-                <h2 className="text-2xl font-bold text-foreground text-primary">
-                  Our Mission
-                </h2>
+                <h2 className="text-2xl font-bold text-primary">Our Mission</h2>
                 <p className="text-lg text-foreground/80 text-pretty leading-relaxed">
                   To empower school and university students with clarity,
                   confidence, and structured mentorship so they can make
@@ -404,9 +380,7 @@ export default async function WelcomePage() {
 
               {/* Vision */}
               <div className="flex-1 mb-16 space-y-6 bg-card border border-border rounded-lg p-8">
-                <h2 className="text-2xl font-bold text-foreground text-primary">
-                  Our Vision
-                </h2>
+                <h2 className="text-2xl font-bold text-primary">Our Vision</h2>
                 <p className="text-lg text-foreground/80 text-pretty leading-relaxed">
                   To become a leading youth career development platform that
                   transforms how students approach academic planning and career
@@ -422,7 +396,7 @@ export default async function WelcomePage() {
           </ScrollSection>
 
           {/* Core Values */}
-          <ScrollSection>
+          {/* <ScrollSection>
             <div className="mb-16 space-y-6">
               <h2 className="text-3xl font-bold text-primary">Core Values</h2>
               <div className="grid md:grid-cols-2 gap-6">
@@ -464,30 +438,14 @@ export default async function WelcomePage() {
                 </div>
               </div>
             </div>
-          </ScrollSection>
-
-          {/* Inspiration Note */}
-          <ScrollSection>
-            <div className="space-y-6 text-center bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg p-8 border border-primary/20">
-              <h2 className="text-2xl font-bold text-foreground">
-                The Taghiyev Legacy
-              </h2>
-              <p className="text-lg text-foreground/80 max-w-2xl mx-auto text-pretty leading-relaxed">
-                Inspired by the pioneering work of social reformers who believed
-                in the transformative power of education, Future Careers carries
-                forward the legacy of social inclusion and human development. We
-                honor the vision of those who understood that investing in
-                students means investing in entire communities.
-              </p>
-            </div>
-          </ScrollSection>
+          </ScrollSection> */}
         </div>
 
         {/* Statistics */}
         <ScrollSection>
           <section className="my-12 space-y-6">
             <div className="text-center space-y-2">
-              <h2 className="text-5xl font-bold text-primary mt-5">
+              <h2 className="text-4xl font-bold text-primary mt-5">
                 Statistics: Our Impact in Numbers
               </h2>
             </div>
@@ -523,7 +481,7 @@ export default async function WelcomePage() {
         </ScrollSection>
 
         {/* Latest News Preview */}
-        <ScrollSection>
+        {/* <ScrollSection>
           <Link href={latestNewsHref} className="block my-12">
             <div className="bg-card border border-border rounded-lg p-8 animate-fade-up hover:border-primary transition-colors">
               <p className="text-sm text-primary font-semibold uppercase tracking-wide">
@@ -542,56 +500,71 @@ export default async function WelcomePage() {
               </span>
             </div>
           </Link>
-        </ScrollSection>
+        </ScrollSection> */}
 
         {/* Team Section */}
         <ScrollSection className="pt-10" id="team">
-          <div className="max-w-6xl mx-auto">
-            {/* Header */}
-            <div className="mb-16 text-center">
-              <h1 className="text-5xl font-bold text-primary mb-6 ">
-                Our Team
-              </h1>
-              <p className="text-xl text-foreground/80 max-w-3xl text-pretty leading-relaxed mx-auto">
-                Behind Future Careers is a passionate team committed to building
-                opportunities for students and shaping pathways for a better
-                future.
-              </p>
-            </div>
+          <section className="relative left-1/2 w-screen -translate-x-1/2 bg-primary py-20 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto">
+              {/* Header */}
+              <div className="mb-16 text-center">
+                <h1 className="text-5xl font-bold text-primary-foreground mb-6 ">
+                  Our Team
+                </h1>
+                <p className="text-xl text-primary-foreground/85 max-w-3xl text-pretty leading-relaxed mx-auto">
+                  Behind Future Careers is a passionate team committed to
+                  building opportunities for students and shaping pathways for a
+                  better future.
+                </p>
+              </div>
 
-            {/* Team Carousel */}
-            <div className="mb-16">
-              <Carousel opts={{ align: "start" }} className="w-full px-10">
-                <CarouselContent>
-                  {teamMembers.map((member) => (
-                    <CarouselItem
-                      key={member.id}
-                      className="md:basis-1/2 lg:basis-1/3"
-                    >
-                      <TeamMemberCard member={member} />
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="left-0" />
-                <CarouselNext className="right-0" />
-              </Carousel>
-            </div>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {teamMembers.map((member) => (
+                  <article
+                    key={member.id}
+                    className="group relative h-120 overflow-hidden rounded-2xl border border-white/20"
+                  >
+                    {member.photo ? (
+                      <Image
+                        src={member.photo}
+                        alt={member.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    ) : null}
 
-            {/* Team Philosophy */}
-            <div className="space-y-6 bg-card border border-border rounded-lg p-8">
-              <h2 className="text-3xl font-bold text-primary">
-                Our Team Philosophy
-              </h2>
-              <p className="text-lg text-foreground/80 text-pretty leading-relaxed">
-                Every member of our team is driven by the belief that education
-                and mentorship can transform lives. We work collaboratively to
-                create safe, inclusive spaces where students can learn, grow,
-                and discover their potential. Our diversity of backgrounds and
-                expertise allows us to serve our students with depth, empathy,
-                and professionalism.
-              </p>
+                    <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/35 to-transparent transition-colors duration-300 group-hover:from-black/90" />
+
+                    <div className="absolute inset-x-0 bottom-0 z-10 p-6 text-primary-foreground transition-transform duration-300 group-hover:-translate-y-2">
+                      <h3 className="text-2xl font-semibold">{member.name}</h3>
+                      <p className="mt-1 text-sm font-medium text-primary-foreground/90">
+                        {member.role}
+                      </p>
+                      <p className="mt-3 text-sm leading-relaxed text-primary-foreground/85 line-clamp-3">
+                        {member.bio}
+                      </p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+
+              {/* Team Philosophy */}
+              <div className="mt-12 space-y-6 rounded-2xl border border-white/20 bg-white/10 p-8 backdrop-blur-sm">
+                <h2 className="text-3xl font-bold text-primary-foreground">
+                  Our Team Philosophy
+                </h2>
+                <p className="text-lg text-primary-foreground/85 text-pretty leading-relaxed">
+                  Every member of our team is driven by the belief that
+                  education and mentorship can transform lives. We work
+                  collaboratively to create safe, inclusive spaces where
+                  students can learn, grow, and discover their potential. Our
+                  diversity of backgrounds and expertise allows us to serve our
+                  students with depth, empathy, and professionalism.
+                </p>
+              </div>
             </div>
-          </div>
+          </section>
         </ScrollSection>
 
         {/* Mentors Section */}
@@ -620,7 +593,7 @@ export default async function WelcomePage() {
         {/* Reserve Meeting Section */}
         <ScrollSection className="py-24">
           <div className="mx-auto">
-            <div className="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg p-8 border border-primary/20 text-center space-y-4 animate-fade-up">
+            <div className="bg-linear-to-br from-primary/5 to-secondary/5 rounded-lg p-8 border border-primary/20 text-center space-y-4 animate-fade-up">
               <div className="space-y-2">
                 <h2 className="text-4xl font-bold text-primary">
                   Reserve Meeting
@@ -641,17 +614,22 @@ export default async function WelcomePage() {
               </p>
 
               <Button size="xl" asChild>
-                <Link
+                <AppLink
+                  variant="heroCta"
                   href="https://docs.google.com/forms/d/e/1FAIpQLSdnQH8aIQbrU3t2HaVln-cPq-F4cd1r3MgLYoJ2-dANDOfGMw/viewform"
                   target="_blank"
+                  className="rounded-full"
                 >
                   Book Now
-                </Link>
+                </AppLink>
               </Button>
             </div>
           </div>
         </ScrollSection>
       </main>
+
+      {/* News Popup Modal */}
+      <NewsPopupModal latestNews={latestNews} />
     </>
   );
 }

@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { getAllPosts } from "@/lib/posts";
 import { ScrollSection } from "@/components/scroll-section";
+import { Eye } from "lucide-react";
+import { AppLink } from "@/components/ui/link";
 
 const typeConfig = {
   announcement: { label: "Announcement", variant: "default" as const },
@@ -15,33 +17,42 @@ function extractFirstImageFromMarkdown(content: string): string | null {
   return match?.[1] ?? null;
 }
 
+function getStaticViewsCount(seed: string): number {
+  const hash = seed
+    .split("")
+    .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+
+  return 200 + (hash % 301);
+}
+
 export default function NewsPage() {
   const posts = getAllPosts();
 
   return (
-    <div className="pt-24 pb-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="pt-24 pb-16 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
-      <ScrollSection className="my-16">
-        <h1 className="text-5xl font-bold text-foreground mb-6">
-          News & Updates
-        </h1>
+      <ScrollSection className="mt-16 mb-5">
+        <h1 className="text-5xl font-bold text-primary mb-6">News & Updates</h1>
         <p className="text-xl text-foreground/80 text-pretty leading-relaxed">
           Stay informed about our latest announcements, events, and milestones
           as we continue to grow and serve more students.
         </p>
       </ScrollSection>
 
+      <hr className="border-t border-border mb-8" />
+
       {/* News List */}
-      <ScrollSection className="space-y-6">
+      <ScrollSection className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {posts.map((post) => {
           const typeKey = post.metadata.type ?? "announcement";
           const typeMeta = typeConfig[typeKey] ?? typeConfig.announcement;
           const previewImage = extractFirstImageFromMarkdown(post.content);
+          const viewsCount = getStaticViewsCount(post.slug);
 
           return (
             <article
               key={post.slug}
-              className="bg-card border border-border rounded-lg p-8 hover:border-primary transition-colors space-y-4 group cursor-pointer"
+              className="bg-white border border-border rounded-xl p-8 hover:border-primary transition-colors space-y-4 group cursor-pointer h-full flex flex-col justify-between"
             >
               {previewImage && (
                 <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-border mb-2">
@@ -64,6 +75,10 @@ export default function NewsPage() {
                         {post.metadata.date}
                       </p>
                     ) : null}
+                    <p className="text-sm text-foreground/60 inline-flex items-center gap-1">
+                      <Eye className="size-4" />
+                      {viewsCount} views
+                    </p>
                   </div>
                   <h2 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
                     {post.metadata.title ?? "Untitled"}
@@ -76,13 +91,14 @@ export default function NewsPage() {
                 </div>
               </div>
               <div className="pt-4 border-t border-border">
-                <Link
+                <AppLink
+                  variant="heroCta"
                   href={`/news/${post.slug}`}
-                  className="text-primary font-semibold hover:gap-2 transition-all flex items-center gap-1"
+                  className="text-primary-foreground font-semibold hover:gap-2 transition-all flex items-center gap-1 w-fit h-8 text-sm"
                 >
                   Read More
                   <span>→</span>
-                </Link>
+                </AppLink>
               </div>
             </article>
           );

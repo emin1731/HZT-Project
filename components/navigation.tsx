@@ -5,7 +5,8 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { AppLink } from "./ui/link";
+import { Button } from "./ui/button";
 
 export function Navigation() {
   const pathname = usePathname();
@@ -46,7 +47,7 @@ export function Navigation() {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ",
         isHomePage
           ? isScrolled
             ? "bg-background/95 backdrop-blur-md border-b border-border shadow-sm"
@@ -69,7 +70,8 @@ export function Navigation() {
             <ul className="hidden md:flex gap-8 items-center">
               {links.map((link) => (
                 <li key={link.href}>
-                  <Link
+                  <AppLink
+                    variant={"hoverUnderline"}
                     href={link.href}
                     className={cn(
                       "text-sm transition-colors text-primary",
@@ -80,44 +82,37 @@ export function Navigation() {
                     )}
                   >
                     {link.label}
-                  </Link>
+                  </AppLink>
                 </li>
               ))}
             </ul>
 
             <div className="hidden md:flex items-center gap-3">
-              {/* <Button variant="outline" size="sm" asChild>
-                <Link href="/login">Login</Link>
-              </Button> */}
-              <Button variant="default" size="sm" asChild>
-                <Link
-                  target="_blank"
-                  href="https://wa.me/994559514280"
-                  rel="noopener noreferrer"
-                >
-                  Contact Us
-                </Link>
-              </Button>
-              <Button variant="default" size="sm" asChild>
-                <Link
-                  target="blank"
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSdnQH8aIQbrU3t2HaVln-cPq-F4cd1r3MgLYoJ2-dANDOfGMw/viewform"
-                >
-                  Reserve Career Meeting
-                </Link>
-              </Button>
+              <AppLink
+                variant="navCta"
+                target="_blank"
+                href="https://wa.me/994559514280"
+                rel="noopener noreferrer"
+                className="rounded-full"
+              >
+                Contact Us
+              </AppLink>
+              <AppLink
+                variant="navCta"
+                target="_blank"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSdnQH8aIQbrU3t2HaVln-cPq-F4cd1r3MgLYoJ2-dANDOfGMw/viewform"
+                rel="noopener noreferrer"
+                className="rounded-full"
+              >
+                Reserve Career Meeting
+              </AppLink>
             </div>
           </div>
 
           <div className="md:hidden">
-            <button
+            <Button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={cn(
-                "transition-colors hover:text-primary",
-                isHomePage && !isScrolled
-                  ? "text-primary-foreground"
-                  : "text-foreground",
-              )}
+              className={cn("transition-colors hover:text-primary mx-5 ")}
               aria-label="Toggle menu"
             >
               <svg
@@ -137,7 +132,7 @@ export function Navigation() {
                   }
                 />
               </svg>
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -145,7 +140,7 @@ export function Navigation() {
       {/* Mobile Menu */}
       <div
         className={cn(
-          "md:hidden fixed inset-0 top-[73px] bg-background z-40 transition-transform duration-300 bg-white",
+          "md:hidden fixed inset-0 top-18.25 z-40 transition-transform duration-300 bg-white",
           isMenuOpen ? "translate-x-0" : "translate-x-full",
         )}
       >
@@ -166,25 +161,24 @@ export function Navigation() {
             </Link>
           ))}
           <div className="pt-4 border-t border-border space-y-3">
-            <Button variant="default" size="sm" className="w-full" asChild>
-              <Link
-                target="_blank"
-                href="https://wa.me/994559514280"
-                rel="noopener noreferrer"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Contact
-              </Link>
-            </Button>
-            <Button variant="default" size="sm" className="w-full" asChild>
-              <Link
-                target="blank"
-                href="https://docs.google.com/forms/d/e/1FAIpQLSdnQH8aIQbrU3t2HaVln-cPq-F4cd1r3MgLYoJ2-dANDOfGMw/viewform"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Reserve Career Meeting
-              </Link>
-            </Button>
+            <AppLink
+              variant="navCta"
+              target="_blank"
+              href="https://wa.me/994559514280"
+              rel="noopener noreferrer"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Contact
+            </AppLink>
+            <AppLink
+              variant="navCta"
+              target="_blank"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSdnQH8aIQbrU3t2HaVln-cPq-F4cd1r3MgLYoJ2-dANDOfGMw/viewform"
+              rel="noopener noreferrer"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Reserve Career Meeting
+            </AppLink>
           </div>
         </div>
       </div>

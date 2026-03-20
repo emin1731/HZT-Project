@@ -2,14 +2,15 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { getAllArticles } from "@/lib/posts";
 import { ScrollSection } from "@/components/scroll-section";
+import { AppLink } from "@/components/ui/link";
 
 export default function ArticlesPage() {
   const articles = getAllArticles();
   return (
-    <div className="pt-24 pb-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="pt-24 pb-8 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
-      <ScrollSection className="my-16">
-        <h1 className="text-5xl font-bold text-foreground mb-6">
+      <ScrollSection className="mt-16 mb-5">
+        <h1 className="text-5xl font-bold text-primary mb-6">
           Articles & Insights
         </h1>
         <p className="text-xl text-foreground/80 text-pretty leading-relaxed">
@@ -18,6 +19,8 @@ export default function ArticlesPage() {
           reflections from the work we do.
         </p>
       </ScrollSection>
+
+      <hr className="border-t border-border mb-8" />
 
       {/* Articles List */}
       <ScrollSection className="space-y-6">
@@ -77,13 +80,14 @@ export default function ArticlesPage() {
                 </div>
               </div>
               <div className="pt-4 border-t border-border">
-                <Link
+                <AppLink
+                  variant="heroCta"
                   href={`/articles/${article.slug}`}
-                  className="text-primary font-semibold hover:gap-2 transition-all flex items-center gap-1"
+                  className="text-primary-foreground font-semibold hover:gap-2 transition-all flex items-center gap-1 w-fit h-8 text-sm"
                 >
                   Read Article
                   <span>→</span>
-                </Link>
+                </AppLink>
               </div>
             </article>
           );

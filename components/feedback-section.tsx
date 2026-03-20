@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { AppLink } from "@/components/ui/link";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -19,15 +20,9 @@ import {
   addFeedbackAction,
   loadFeedbacksAction,
 } from "@/app/actions/feedbacks";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { FeedbackItem } from "@/lib/types";
 import { Card } from "./ui/card";
+import { ArrowRight, UserRound } from "lucide-react";
 
 interface FeedbackSectionProps {
   initialFeedbacks: FeedbackItem[];
@@ -40,6 +35,7 @@ export function FeedbackSection({ initialFeedbacks }: FeedbackSectionProps) {
   const [text, setText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const previewFeedbacks = feedbacks.slice(0, 3);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -80,54 +76,60 @@ export function FeedbackSection({ initialFeedbacks }: FeedbackSectionProps) {
 
   return (
     <ScrollSection className="pt-10" id="feedback">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-5xl font-bold text-primary mb-6">
-            Check Out What People Saying
-          </h1>
-          <p className="text-xl text-foreground/80 max-w-3xl text-pretty leading-relaxed text-center">
-            Real voices from students and families who joined Future Careers
-            sessions.
-          </p>
+      <section className="space-y-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <h2 className="text-4xl font-bold text-primary">
+            Latest updates from our events
+          </h2>
+
+          <AppLink
+            variant="heroCta"
+            href="/feedbacks"
+            className="self-start rounded-full px-5 text-base h-10"
+          >
+            See more
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </AppLink>
         </div>
+        <p className="text-xl text-foreground/80 text-pretty leading-relaxed text-start">
+          Real voices from students and families who joined Future Careers
+          sessions.
+        </p>
 
-        <Carousel
-          opts={{ align: "start", loop: true }}
-          className="w-full px-10"
-        >
-          <CarouselContent>
-            {feedbacks.map((feedback) => (
-              <CarouselItem
-                key={feedback.id}
-                className="md:basis-1/2 lg:basis-1/3 mt-2"
-              >
-                <div className="group relative h-full overflow-hidden rounded-2xl border border-primary/20 bg-linear-to-br from-primary/5 via-card to-secondary/10 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-md">
-                  <div className="pointer-events-none absolute top-0 right-1 text-8xl leading-none text-primary/10 select-none">
-                    ”
-                  </div>
-                  <div className="relative flex h-full flex-col justify-between">
-                    <p className="text-foreground/85 leading-relaxed text-pretty">
-                      “{feedback.text}”
-                    </p>
+        <hr className="border-t border-border" />
 
-                    <div className="mt-6 border-t border-primary/20 pt-4">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {previewFeedbacks.map((feedback) => (
+            <div
+              key={feedback.id}
+              className="group h-full rounded-2xl border border-border bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+            >
+              <div className="flex h-full flex-col justify-between">
+                <p className="line-clamp-5 text-center text-foreground/85 leading-relaxed text-pretty">
+                  “{feedback.text}”
+                </p>
+
+                <div className="mt-6 border-t border-border pt-4">
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex size-8 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      <UserRound className="size-4" />
+                    </span>
+                    <div>
                       <p className="font-semibold text-foreground">
                         {feedback.name}
                       </p>
-                      <p className="mt-1 text-sm text-foreground/70">
+                      <p className="text-sm text-foreground/70 text-start">
                         {feedback.date}
                       </p>
                     </div>
                   </div>
                 </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="left-0" />
-          <CarouselNext className="right-0" />
-        </Carousel>
+              </div>
+            </div>
+          ))}
+        </div>
 
-        <div className="mt-8 px-10">
+        <div className="mt-8">
           <Dialog
             open={isDialogOpen}
             onOpenChange={(open) => {
@@ -203,7 +205,7 @@ export function FeedbackSection({ initialFeedbacks }: FeedbackSectionProps) {
             </DialogContent>
           </Dialog>
         </div>
-      </div>
+      </section>
     </ScrollSection>
   );
 }
