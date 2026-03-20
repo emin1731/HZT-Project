@@ -18,6 +18,8 @@ export default async function FeedbacksPage() {
           </p>
         </ScrollSection>
 
+        <hr className="border-t border-border mb-8" />
+
         <ScrollSection>
           {feedbacks.length === 0 ? (
             <div className="rounded-2xl border border-border bg-card p-8 text-center text-foreground/70">
@@ -28,7 +30,7 @@ export default async function FeedbacksPage() {
               {feedbacks.map((feedback) => (
                 <article
                   key={feedback.id}
-                  className="h-full rounded-2xl border border-border bg-card p-6 shadow-sm"
+                  className="h-full rounded-2xl border border-border bg-card p-6 shadow-sm flex flex-col justify-between"
                 >
                   <p className="text-center text-foreground/90 leading-relaxed text-pretty">
                     “{feedback.text}”
