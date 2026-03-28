@@ -12,6 +12,8 @@ export function Navigation() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isHomePage = pathname === "/";
+  const isHomeAtTop = isHomePage && !isScrolled;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,8 +44,6 @@ export function Navigation() {
     { href: "/articles", label: "Articles" },
   ];
 
-  const isHomePage = pathname === "/";
-
   return (
     <nav
       className={cn(
@@ -51,18 +51,23 @@ export function Navigation() {
         isHomePage
           ? isScrolled
             ? "bg-background/95 backdrop-blur-md border-b border-border shadow-sm"
-            : "bg-transparent text-primary-foreground border-b border-transparent"
+            : "bg-transparent text-white border-b border-transparent"
           : "bg-background/95 backdrop-blur-md border-b border-border shadow-sm",
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          <Link href="/" className={"hover:text-primary transition-colors"}>
+          <Link href="/" className={"transition-colors"}>
             <Image
               src="/future-careers-logo.png"
               alt="Logo"
               width={140}
               height={20}
+              className={cn(
+                "transition-all duration-300",
+                isHomeAtTop &&
+                  "brightness-0 invert drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]",
+              )}
             />
           </Link>
 
@@ -74,11 +79,14 @@ export function Navigation() {
                     variant={"hoverUnderline"}
                     href={link.href}
                     className={cn(
-                      "text-sm transition-colors text-primary",
-                      pathname === link.href
-                        ? "text-primary font-semibold"
-                        : "text-foreground",
-                      isHomePage && !isScrolled && "text-primary",
+                      "text-sm transition-colors",
+                      isHomeAtTop
+                        ? pathname === link.href
+                          ? "text-white font-semibold"
+                          : "text-white/90 hover:text-white"
+                        : pathname === link.href
+                          ? "text-primary font-semibold"
+                          : "text-foreground hover:text-primary",
                     )}
                   >
                     {link.label}
@@ -111,8 +119,14 @@ export function Navigation() {
 
           <div className="md:hidden">
             <Button
+              variant="ghost"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={cn("transition-colors hover:text-primary mx-5 ")}
+              className={cn(
+                "mx-5 transition-colors",
+                isHomeAtTop
+                  ? "text-white hover:text-white/80"
+                  : "hover:text-primary",
+              )}
               aria-label="Toggle menu"
             >
               <svg

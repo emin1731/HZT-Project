@@ -55,12 +55,24 @@ export default async function WelcomePage() {
   return (
     <>
       {/* <Navigation /> */}
-      <header className="pt-32">
-        <ScrollSection className="relative -mt-24 px-4 md:py-16 sm:px-6 lg:px-8 lg:h-screen lg:flex lg:flex-col lg:justify-center lg:py-0">
-          <div className="mx-auto flex w-full max-w-4xl items-center justify-center lg:h-[calc(100vh-8rem)]">
-            <div className="p-6 py-20 sm:p-8 lg:p-10 flex flex-col flex-1 text-center items-center">
+      <header className="pt-24">
+        <ScrollSection className="relative -mt-24 min-h-svh overflow-hidden px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
+          <video
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+            autoPlay
+            loop
+            muted
+            playsInline
+            aria-hidden="true"
+          >
+            <source src="/hero-video.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-black/45" aria-hidden="true" />
+
+          <div className="relative z-10 mx-auto flex w-full max-w-4xl min-h-svh items-center justify-center">
+            <div className="p-6 py-20 sm:p-8 lg:p-10 flex flex-col flex-1 text-center items-center text-white">
               <Badge
-                className="text-sm md:text-md px-5 rounded-full mb-3 uppercase tracking-wide animate-fade-up"
+                className="text-sm md:text-md px-5 rounded-full mb-3 uppercase tracking-wide animate-fade-up border-white/70 text-white"
                 variant={"outline"}
               >
                 <Info className="mr-1" />
@@ -68,7 +80,7 @@ export default async function WelcomePage() {
               </Badge>
               <h1 className="text-4xl font-bold sm:text-5xl lg:text-6xl">
                 Design Your Future Career with{" "}
-                <span className="text-primary">Future Careers</span>
+                <span className="text-primary-foreground">Future Careers</span>
               </h1>
               <p className="my-5 text-lg md:text-xl animate-fade-up stagger-1 max-w-3xl">
                 Guiding school and university students toward confident academic
