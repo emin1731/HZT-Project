@@ -94,7 +94,8 @@ export default async function WelcomePage() {
                     variant="heroCta"
                     target="_blank"
                     rel="noopener noreferrer"
-                    href="https://docs.google.com/forms/d/e/1FAIpQLSdnQH8aIQbrU3t2HaVln-cPq-F4cd1r3MgLYoJ2-dANDOfGMw/viewform"
+                    // href="https://docs.google.com/forms/d/e/1FAIpQLSdnQH8aIQbrU3t2HaVln-cPq-F4cd1r3MgLYoJ2-dANDOfGMw/viewform"
+                    href="https://wa.me/994559514280"
                   >
                     Reserve Your Meeting
                     <ArrowRight className="ml-2 h-5 w-5" />
