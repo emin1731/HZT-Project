@@ -29,8 +29,8 @@ const sponsors = [
 
 const statistics = [
   {
-    value: "700+",
-    label: "Students participated in our events",
+    value: "1000+",
+    label: "Students involved in our events",
     primary: true,
   },
   { value: "15+", label: "Trainings was conducted" },
@@ -57,6 +57,7 @@ export default async function WelcomePage() {
       {/* <Navigation /> */}
       <header className="pt-24">
         <ScrollSection className="relative -mt-24 min-h-svh overflow-hidden px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
+          {/*
           <video
             className="pointer-events-none absolute inset-0 h-full w-full object-cover"
             autoPlay
@@ -67,6 +68,15 @@ export default async function WelcomePage() {
           >
             <source src="/hero-video.mp4" type="video/mp4" />
           </video>
+          */}
+          <Image
+            src="/hero-page.PNG"
+            alt="Hero background"
+            fill
+            priority
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+            sizes="100vw"
+          />
           <div className="absolute inset-0 bg-black/45" aria-hidden="true" />
 
           <div className="relative z-10 mx-auto flex w-full max-w-4xl min-h-svh items-center justify-center">
@@ -275,6 +285,45 @@ export default async function WelcomePage() {
                 </div>
               </section>
             </ScrollSection>
+
+            {/* Statistics */}
+            <ScrollSection>
+              <section className="my-12 space-y-6">
+                <div className="text-center space-y-2">
+                  <h2 className="text-4xl font-bold text-primary mt-5">
+                    Statistics: Our Impact in Numbers
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {statistics.map((stat) => (
+                    <div
+                      key={stat.label}
+                      className={`rounded-lg border bg-card text-center hover:border-primary transition-colors ${
+                        stat.primary
+                          ? "border-primary/40 p-8 sm:col-span-2 lg:col-span-2 lg:row-span-2 flex flex-col justify-center"
+                          : "border-border p-6"
+                      }`}
+                    >
+                      <p
+                        className={`font-bold text-primary ${
+                          stat.primary ? "text-5xl md:text-6xl" : "text-4xl"
+                        }`}
+                      >
+                        {stat.value}
+                      </p>
+                      <p
+                        className={`mt-2 text-foreground/80 ${
+                          stat.primary ? "text-lg" : "text-base"
+                        }`}
+                      >
+                        {stat.label}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </ScrollSection>
           </div>
         </ScrollSection>
 
@@ -289,13 +338,30 @@ export default async function WelcomePage() {
               <p className="text-xl text-foreground/80 text-pretty leading-relaxed">
                 Future Careers is a career pathway and mentoring platform
                 designed for school and university students who are preparing
-                for academic and professional life.
+                for their academic and professional journey.
+              </p>
+              <h2 className="text-3xl font-bold text-primary mt-10">
+                Our Purpose
+              </h2>
+              <p className="text-xl text-foreground/80 text-pretty leading-relaxed mt-2">
+                Our initiative is built as a social impact project, primarily
+                aimed at supporting students from martyr and veteran families,
+                physically challenged individuals, and financially disadvantaged
+                groups, ensuring they have equal access to career guidance and
+                opportunities.
+              </p>
+              <p className="text-xl text-foreground/80 text-pretty leading-relaxed mt-2">
+                At the same time, Future Careers seeks to create a meaningful
+                impact within the Azerbaijani professional community by
+                connecting experienced local specialists with young individuals,
+                encouraging knowledge sharing, mentorship, and long-term
+                development.
               </p>
             </div>
           </ScrollSection>
 
           {/* About the Project */}
-          <ScrollSection>
+          {/* <ScrollSection>
             <div className="mb-16 space-y-6">
               <h2 className="text-3xl font-bold text-primary">Our Purpose</h2>
               <div className="space-y-4 text-foreground/80 leading-relaxed">
@@ -317,7 +383,7 @@ export default async function WelcomePage() {
                 </p>
               </div>
             </div>
-          </ScrollSection>
+          </ScrollSection> */}
 
           {/* Access & Support */}
           <ScrollSection>
@@ -328,15 +394,15 @@ export default async function WelcomePage() {
               <div className="space-y-4 text-foreground/80 leading-relaxed">
                 <p>
                   <span className="font-semibold text-primary">
-                    All of our sessions, mentorship, and activities are
-                    completely free of charge.
+                    All Future Careers activities are completely free of charge,
+                    ensuring equal access for all, especially disadvantaged
+                    groups.
                   </span>
                 </p>
                 <p>
-                  We are supported by dedicated partners who believe in youth
-                  development and education. Our partners contribute their time,
-                  expertise, and support without any fee or financial
-                  expectation.
+                  Our partners and mentors support the project voluntarily,
+                  contributing their time and expertise to empower the next
+                  generation.
                 </p>
               </div>
             </div>
@@ -376,23 +442,23 @@ export default async function WelcomePage() {
 
           {/* Mission & Vision */}
           <ScrollSection>
-            <div className="flex gap-x-10 flex-col lg:flex-row">
-              <div className="flex-1 mb-16 space-y-6 bg-card border border-border rounded-lg p-8">
-                <h2 className="text-2xl font-bold text-primary">Our Mission</h2>
-                <p className="text-lg text-foreground/80 text-pretty leading-relaxed">
-                  To empower school and university students with clarity,
-                  confidence, and structured mentorship so they can make
-                  informed academic and career decisions aligned with their
-                  abilities and future goals.
-                </p>
-                <p className="text-lg text-foreground/80 text-pretty leading-relaxed">
-                  And to make this guidance accessible to everyone, completely
-                  free.
-                </p>
-              </div>
+            {/* <div className=""> */}
+            <div className="flex-1 mb-16 space-y-6 bg-card border border-border rounded-lg p-8">
+              <h2 className="text-2xl font-bold text-primary">
+                24/7 Support & Mobile Career Support
+              </h2>
+              <p className="text-lg text-foreground/80 text-pretty leading-relaxed">
+                Future Careers offers 24/7 live support to guide students at any
+                stage of their career journey. In addition, we provide mobile
+                career support, delivering personalized guidance directly to
+                individuals especially those with physical limitations or
+                limited access and living in regions to ensure equal
+                opportunities for everyone.
+              </p>
+            </div>
 
-              {/* Vision */}
-              <div className="flex-1 mb-16 space-y-6 bg-card border border-border rounded-lg p-8">
+            {/* Vision */}
+            {/* <div className="flex-1 mb-16 space-y-6 bg-card border border-border rounded-lg p-8">
                 <h2 className="text-2xl font-bold text-primary">Our Vision</h2>
                 <p className="text-lg text-foreground/80 text-pretty leading-relaxed">
                   To become a leading youth career development platform that
@@ -404,8 +470,8 @@ export default async function WelcomePage() {
                   We believe education guidance should be simple, accessible,
                   and supportive for every student.
                 </p>
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
           </ScrollSection>
 
           {/* Core Values */}
@@ -453,45 +519,6 @@ export default async function WelcomePage() {
             </div>
           </ScrollSection> */}
         </div>
-
-        {/* Statistics */}
-        <ScrollSection>
-          <section className="my-12 space-y-6">
-            <div className="text-center space-y-2">
-              <h2 className="text-4xl font-bold text-primary mt-5">
-                Statistics: Our Impact in Numbers
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {statistics.map((stat) => (
-                <div
-                  key={stat.label}
-                  className={`rounded-lg border bg-card text-center hover:border-primary transition-colors ${
-                    stat.primary
-                      ? "border-primary/40 p-8 sm:col-span-2 lg:col-span-2 lg:row-span-2 flex flex-col justify-center"
-                      : "border-border p-6"
-                  }`}
-                >
-                  <p
-                    className={`font-bold text-primary ${
-                      stat.primary ? "text-5xl md:text-6xl" : "text-4xl"
-                    }`}
-                  >
-                    {stat.value}
-                  </p>
-                  <p
-                    className={`mt-2 text-foreground/80 ${
-                      stat.primary ? "text-lg" : "text-base"
-                    }`}
-                  >
-                    {stat.label}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </section>
-        </ScrollSection>
 
         {/* Latest News Preview */}
         {/* <ScrollSection>
@@ -562,7 +589,7 @@ export default async function WelcomePage() {
                 ))}
               </div>
 
-              {/* Team Philosophy */}
+              {/* Team Philosophy
               <div className="mt-12 space-y-6 rounded-2xl border border-white/20 bg-white/10 p-8 backdrop-blur-sm">
                 <h2 className="text-3xl font-bold text-primary-foreground">
                   Our Team Philosophy
@@ -575,7 +602,7 @@ export default async function WelcomePage() {
                   diversity of backgrounds and expertise allows us to serve our
                   students with depth, empathy, and professionalism.
                 </p>
-              </div>
+              </div> */}
             </div>
           </section>
         </ScrollSection>
