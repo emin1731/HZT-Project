@@ -656,7 +656,8 @@ export default async function WelcomePage() {
               <Button size="xl" asChild>
                 <AppLink
                   variant="heroCta"
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSdnQH8aIQbrU3t2HaVln-cPq-F4cd1r3MgLYoJ2-dANDOfGMw/viewform"
+                  // href="https://docs.google.com/forms/d/e/1FAIpQLSdnQH8aIQbrU3t2HaVln-cPq-F4cd1r3MgLYoJ2-dANDOfGMw/viewform"
+                  href="https://wa.me/994559514280"
                   target="_blank"
                   className="rounded-full"
                 >
